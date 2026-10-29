@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thibbun Nabawi — catatan resep dari meja makan</title>
+    <meta name="description" content="Resep rumahan dari bahan-bahan yang disukai Rasulullah ﷺ, plus kamus pengganti bahan non-halal seperti mirin, angciu, dan gelatin.">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#151412" media="(prefers-color-scheme: dark)">
+    <meta property="og:title" content="Thibbun Nabawi">
+    <meta property="og:description" content="Resep thibbun nabawi sederhana dan kamus bahan pengganti halal.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233f6b4a'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='18' font-weight='600' fill='white' text-anchor='middle'%3Et.%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    
+<header class="topbar navbar navbar-expand-md">
+    <a class="logo navbar-brand" href="#beranda">
+        <span class="logo-mark">t.</span>
+        <span class="logo-text">Thibbun Nabawi</span>
+    </a>
+
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainNavigation"
+        aria-controls="mainNavigation"
+        aria-expanded="false"
+        aria-label="Buka atau tutup navigasi">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <nav class="collapse navbar-collapse" id="mainNavigation" aria-label="Navigasi utama">
+        <a href="#beranda" data-page="beranda">Beranda</a>
+        <a href="#resep" data-page="resep">Resep</a>
+        <a href="#kamus" data-page="kamus">Kamus Bahan</a>
+        <a href="#masuk" class="btn-login" data-page="masuk">Masuk</a>
+    </nav>
+</header>
+
+
+    <main>
+        <section id="beranda" class="section">
+            <div class="hero">
+                <div class="hero-copy">
+                    <h1>Sehat dari dapur,<br>berlandaskan <em>Thibbun Nabawi</em>.</h1>
+                    <p class="lead">
+                        Thibbun nabawi bukan cuma soal obat. Ia dimulai dari dapur — dari kurma,
+                        madu, labu, dan zaitun yang dulu ada di meja Rasulullah ﷺ. Di sini kami
+                        kumpulkan resepnya, adab makannya, dan kamus kecil buat kamu yang sering
+                        bingung: <i>"mirin itu diganti apa, ya?"</i>
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#resep" class="btn-primary">Lihat resep &rarr;</a>
+                        <a href="#kamus" class="btn-ghost">Buka kamus bahan</a>
+                    </div>
+                </div>
+
+                <aside class="hero-note">
+                    <p class="note-hand">Catatan dapur</p>
+                    <blockquote>"Sebaik-baik lauk adalah cuka."</blockquote>
+                    <cite>— HR. Muslim</cite>
+                    <p class="note-small">Sederhana itu bukan berarti seadanya. Kadang roti, minyak zaitun, dan sedikit cuka sudah cukup jadi sarapan yang enak.</p>
+                </aside>
+            </div>
+
+            <div class="block">
+                <div class="block-head">
+                    <h2>Adab makan dari Rasulullah ﷺ</h2>
+                    <span class="block-sub">Hal-hal kecil yang bikin makan lebih berkah.</span>
+                </div>
+                <ol class="adab-list" id="adab-list"></ol>
+            </div>
+        </section>
+
+        <section id="resep" class="section">
+            <div class="section-head">
+                <h2>Resep dari meja kami</h2>
+                <p class="section-sub">Klik kartunya untuk lihat bahan dan cara masak lengkap.</p>
+            </div>
+            <div class="toolbar">
+                <div class="search-wrap">
+                    <input type="search" id="search-resep" class="search-box" placeholder="Cari resep atau bahan… misal: madu, labu" autocomplete="off">
+                    <span class="search-count" id="resep-count"></span>
+                </div>
+                <div class="filters" id="recipe-filters"></div>
+            </div>
+            <div class="recipe-grid row g-4" id="recipe-container"></div>
+        </section>
+
+        <section id="kamus" class="section">
+            <div class="section-head">
+                <h2>Bahan pengganti yang halal</h2>
+                <p class="section-sub">Resep luar sering pakai bahan yang meragukan. Ini daftar penggantinya yang sudah kami coba sendiri.</p>
+            </div>
+            <div class="toolbar">
+                <div class="search-wrap">
+                    <input type="search" id="search-kamus" class="search-box" placeholder="Ketik bahannya… misal: mirin, angciu, gelatin" autocomplete="off">
+                    <span class="search-count" id="kamus-count"></span>
+                </div>
+                <div class="filters" id="kamus-filters"></div>
+            </div>
+            <div id="kamus-container" class="dict-list"></div>
+            <p class="dict-note">Selalu cek logo halal MUI/BPJPH pada kemasan produk pengganti, terutama perisa, gelatin, dan daging olahan.</p>
+        </section>
+
+        <!-- ---------- kotak masuk: saran & masukan ---------- -->
+        <section id="masuk-kotak" class="section">
+            <div class="section-head">
+                <h2>Kotak Masuk</h2>
+                <p class="section-sub">Kritik, saran, atau masukan resep baru untuk kami. Kami baca semua pesan yang masuk.</p>
+            </div>
+            <form id="form-masuk" class="form-inbox" novalidate>
+                <div class="form-row">
+                    <label for="inbox-nama">Nama</label>
+                    <input type="text" id="inbox-nama" placeholder="Siapa namanya?" required minlength="2" maxlength="60">
+                </div>
+                <div class="form-row">
+                    <label for="inbox-email">Email (opsional)</label>
+                    <input type="email" id="inbox-email" placeholder="contoh@email.com" maxlength="100">
+                </div>
+                <div class="form-row full">
+                    <label for="inbox-pesan">Pesan / Saran</label>
+                    <textarea id="inbox-pesan" rows="5" placeholder="Tulis saran, masukan, atau ide resep di sini…" required minlength="10" maxlength="500"></textarea>
+                </div>
+                <button type="submit" class="btn-primary btn-submit-inbox">Kirim Pesan</button>
+                <p class="form-hint" id="inbox-status"></p>
+            </form>
+        </section>
+
+        <!-- ---------- tambah resep (hanya saat login) ---------- -->
+        <section id="tambah-resep" class="section hidden" aria-labelledby="tambah-resep-judul">
+            <div class="section-head">
+                <h2 id="tambah-resep-judul">Tambah Resep Sendiri</h2>
+                <p class="section-sub">Bagikan resep rumahan yang berkaitan dengan Thibbun Nabawi. Resep akan ditinjau sebelum ditampilkan.</p>
+            </div>
+            <form id="form-tambah-resep" class="form-add-recipe" novalidate>
+                <div class="form-row">
+                    <label for="resep-nama">Nama Resep</label>
+                    <input type="text" id="resep-nama" placeholder="Contoh: Talbinah Madu Kurma" required minlength="3" maxlength="100">
+                </div>
+                <div class="form-row">
+                    <label for="resep-kategori">Kategori</label>
+                    <select id="resep-kategori" required>
+                        <option value="">Pilih kategori</option>
+                        <option value="Sarapan">Sarapan</option>
+                        <option value="Hidangan Utama">Hidangan Utama</option>
+                        <option value="Pelengkap">Pelengkap</option>
+                        <option value="Minuman">Minuman</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <label for="resep-waktu">Waktu Memasak</label>
+                    <input type="text" id="resep-waktu" placeholder="Contoh: 25 mnt" required maxlength="30">
+                </div>
+                <div class="form-row">
+                    <label for="resep-porsi">Porsi</label>
+                    <input type="number" id="resep-porsi" min="1" max="20" value="1" required>
+                </div>
+                <div class="form-row full">
+                    <label for="resep-ringkas">Ringkasan (1 kalimat)</label>
+                    <textarea id="resep-ringkas" rows="2" placeholder="Ceritakan resep ini secara singkat…" required minlength="10" maxlength="200"></textarea>
+                </div>
+                <div class="form-row full">
+                    <label for="resep-bahan">Bahan (satu baris satu bahan)</label>
+                    <textarea id="resep-bahan" rows="4" placeholder="2 sdm tepung barley\n200 ml susu cair" required></textarea>
+                </div>
+                <div class="form-row full">
+                    <label for="resep-langkah">Langkah Membuat (satu baris satu langkah)</label>
+                    <textarea id="resep-langkah" rows="5" placeholder="Larutkan tepung barley dengan sedikit susu dingin…" required></textarea>
+                </div>
+                <div class="form-row full">
+                    <label for="resep-dalil">Dalil / Sumber (opsional)</label>
+                    <textarea id="resep-dalil" rows="2" placeholder="Contoh: HR. Bukhari, dari Aisyah radhiyallahu ‘anha"></textarea>
+                </div>
+                <button type="submit" class="btn-primary btn-submit-recipe">Kirim Resep</button>
+                <p class="form-hint" id="recipe-status"></p>
+            </form>
+        </section>
+
+    </main>
+
+    <div class="modal" id="recipe-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <article class="modal-card" id="modal-content"></article>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <footer class="footer">
+        <p>Dibuat dengan sabar di dapur kecil. Kalau ada resep yang gagal, coba lagi — kami juga begitu.</p>
+        <p class="footer-small">Info kesehatan di sini bersifat umum, bukan pengganti saran dokter.</p>
+    </footer>
+
+    <!-- ---------- modal login ---------- -->
+    <div class="modal" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title">
+        <article class="modal-card login-card">
+            <button type="button" class="modal-close" data-login-close aria-label="Tutup">×</button>
+            <h2 id="login-title">Masuk</h2>
+            <p class="login-sub">Login hanya diperlukan untuk menambahkan resep sendiri atau mengirim masukan &amp; saran.</p>
+            <form id="form-login" class="form-login" novalidate>
+                <div class="form-row">
+                    <label for="login-nama">Nama Pengguna</label>
+                    <input type="text" id="login-nama" placeholder="Masukkan nama Anda" required minlength="2" maxlength="40">
+                </div>
+                <div class="form-row full">
+                    <button type="submit" class="btn-primary btn-login-submit">Masuk</button>
+                </div>
+            </form>
+            <p class="form-hint" id="login-status"></p>
+            <p class="login-footer-text">Belum punya akun? Cukup masuk dengan nama — kami akan ingat di perangkat ini.</p>
+        </article>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

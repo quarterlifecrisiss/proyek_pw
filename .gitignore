@@ -1,0 +1,13 @@
+# Folder Playwright
+.playwright-cli/
+
+# Semua file Markdown
+*.md
+
+# File rahasia
+.env
+.env.*
+!.env.example
+
+# File sistem macOS
+.DS_Store
