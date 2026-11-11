@@ -233,29 +233,19 @@ function logout() {
 }
 
 function updateLoginUI() {
-    const btn = document.querySelector('.btn-login');
-    const tambahSection = $('tambah-resep');
-    const navLogin = document.querySelector('nav a.btn-login');
+    const $navLogin = $('nav a.btn-login');
+    const $tambahSection = $('#tambah-resep');
 
     if (isLoggedIn()) {
-        if (navLogin) {
-            navLogin.textContent = 'Keluar';
-            navLogin.dataset.page = '';
-            navLogin.removeAttribute('href');
-            navLogin.addEventListener('click', (e) => {
-                e.preventDefault();
-                logout();
-            }, { once: true });
+        if ($navLogin.length) {
+            $navLogin.text('Keluar').attr('href', '#').removeAttr('data-page');
         }
-        if (tambahSection) tambahSection.classList.remove('hidden');
+        $tambahSection.removeClass('hidden');
     } else {
-        if (navLogin) {
-            navLogin.textContent = 'Masuk';
-            navLogin.dataset.page = 'masuk';
-            navLogin.href = '#masuk';
-            navLogin.onclick = null;
+        if ($navLogin.length) {
+            $navLogin.text('Masuk').attr({ href: '#masuk', 'data-page': 'masuk' });
         }
-        if (tambahSection) tambahSection.classList.add('hidden');
+        $tambahSection.addClass('hidden');
     }
 }
 
@@ -276,14 +266,13 @@ function handleInboxForm(e) {
         showToast('Silakan masuk terlebih dahulu');
         return;
     }
-    const nama = $('inbox-nama').value.trim();
-    const email = $('inbox-email').value.trim();
-    const pesan = $('inbox-pesan').value.trim();
-    const status = $('inbox-status');
+    const nama = $.trim($('#inbox-nama').val());
+    const email = $.trim($('#inbox-email').val());
+    const pesan = $.trim($('#inbox-pesan').val());
+    const $status = $('#inbox-status');
 
     if (!nama || !pesan) {
-        status.textContent = 'Nama dan pesan wajib diisi.';
-        status.className = 'form-hint err';
+        $status.text('Nama dan pesan wajib diisi.').removeClass('ok').addClass('err');
         return;
     }
 
@@ -299,10 +288,9 @@ function handleInboxForm(e) {
     });
     saveInbox(masuk);
 
-    $('form-masuk').reset();
-    status.textContent = 'Pesan terkirim. Terima kasih atas masukan Anda!';
-    status.className = 'form-hint ok';
-    setTimeout(() => { status.textContent = ''; }, 4000);
+    $('#form-masuk')[0].reset();
+    $status.text('Pesan terkirim. Terima kasih atas masukan Anda!').removeClass('err').addClass('ok');
+    setTimeout(() => { $status.text('').removeClass('ok'); }, 4000);
 }
 
 /* ---------- tambah resep ---------- */
@@ -322,19 +310,18 @@ function handleAddRecipeForm(e) {
         showToast('Silakan masuk terlebih dahulu');
         return;
     }
-    const nama = $('resep-nama').value.trim();
-    const kategori = $('resep-kategori').value;
-    const waktu = $('resep-waktu').value.trim();
-    const porsi = parseInt($('resep-porsi').value, 10) || 1;
-    const ringkas = $('resep-ringkas').value.trim();
-    const bahan = $('resep-bahan').value.split('\n').map(b => b.trim()).filter(b => b);
-    const langkah = $('resep-langkah').value.split('\n').map(l => l.trim()).filter(l => l);
-    const dalil = $('resep-dalil').value.trim();
-    const status = $('recipe-status');
+    const nama = $.trim($('#resep-nama').val());
+    const kategori = $('#resep-kategori').val();
+    const waktu = $.trim($('#resep-waktu').val());
+    const porsi = parseInt($('#resep-porsi').val(), 10) || 1;
+    const ringkas = $.trim($('#resep-ringkas').val());
+    const bahan = $.trim($('#resep-bahan').val()).split('\n').map(b => $.trim(b)).filter(Boolean);
+    const langkah = $.trim($('#resep-langkah').val()).split('\n').map(l => $.trim(l)).filter(Boolean);
+    const dalil = $.trim($('#resep-dalil').val());
+    const $status = $('#recipe-status');
 
     if (!nama || !kategori || !waktu || !ringkas || !bahan.length || !langkah.length) {
-        status.textContent = 'Isi semua field yang wajib.';
-        status.className = 'form-hint err';
+        $status.text('Isi semua field yang wajib.').removeClass('ok').addClass('err');
         return;
     }
 
@@ -348,15 +335,11 @@ function handleAddRecipeForm(e) {
     });
     saveSubmittedRecipes(list);
 
-    $('form-tambah-resep').reset();
-    $('resep-porsi').value = 1;
-    status.textContent = 'Resep terkirim. Akan ditinjwa sebelum ditampilkan.';
-    status.className = 'form-hint ok';
-    setTimeout(() => { status.textContent = ''; }, 5000);
+    $('#form-tambah-resep')[0].reset();
+    $('#resep-porsi').val(1);
+    $status.text('Resep terkirim. Akan ditinjau sebelum ditampilkan.').removeClass('err').addClass('ok');
+    setTimeout(() => { $status.text('').removeClass('ok'); }, 5000);
 }
-
-
-const $ = id => document.getElementById(id);
 
 function escapeHtml(str) {
     return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -374,19 +357,18 @@ function recipeText(r) {
 }
 
 function showToast(msg) {
-    const t = $('toast');
-    t.textContent = msg;
-    t.classList.add('show');
+    const $t = $('#toast').stop(true, true).text(msg).addClass('show');
     clearTimeout(showToast.timer);
-    showToast.timer = setTimeout(() => t.classList.remove('show'), 2200);
+    showToast.timer = setTimeout(() => $t.removeClass('show'), 2200);
 }
 
 /* ---------- navigasi ---------- */
 function setActiveNav(sectionId) {
-    document.querySelectorAll('nav a').forEach(a => {
-        const active = a.dataset.page === sectionId;
-        a.classList.toggle('active', active);
-        active ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current');
+    $('nav a[data-page]').each(function () {
+        const active = $(this).data('page') === sectionId;
+        $(this).toggleClass('active', active);
+        if (active) $(this).attr('aria-current', 'true');
+        else $(this).removeAttr('aria-current');
     });
 }
 
@@ -397,9 +379,11 @@ function watchSections() {
         });
     }, { rootMargin: '-45% 0px -50% 0px' });
 
-    SECTIONS.forEach(id => observer.observe($(id)));
+    SECTIONS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) observer.observe(el);
+    });
 }
-
 
 function recipeFromHash() {
     const [section, id] = location.hash.replace('#', '').split('/');
@@ -413,13 +397,13 @@ function route() {
 
 /* ---------- beranda ---------- */
 function renderAdab() {
-    $('adab-list').innerHTML = adab.map(a => `
+    $('#adab-list').html(adab.map(a => `
         <li>
             <h3>${a.judul}</h3>
             <p>${a.isi}</p>
             <small>${a.sumber}</small>
         </li>
-    `).join('');
+    `).join(''));
 }
 
 /* ---------- resep ---------- */
@@ -478,16 +462,13 @@ function toggleFav(id) {
 
     const on = isFav(id);
     const label = on ? 'Hapus dari favorit' : 'Simpan ke favorit';
-    document.querySelectorAll(`[data-fav="${id}"]`).forEach(btn => {
-        btn.classList.toggle('on', on);
-        btn.classList.remove('pop');
-        void btn.offsetWidth;
-        if (on) btn.classList.add('pop');
-        btn.setAttribute('aria-pressed', on);
-        btn.setAttribute('aria-label', label);
-        btn.title = label;
-        const text = btn.querySelector('span');
-        if (text) text.textContent = on ? 'Tersimpan' : 'Simpan';
+    $(`[data-fav="${id}"]`).each(function () {
+        const $btn = $(this);
+        $btn.toggleClass('on', on).attr({ 'aria-pressed': on, 'aria-label': label, title: label });
+        $btn.removeClass('pop');
+        void this.offsetWidth;
+        if (on) $btn.addClass('pop');
+        $btn.find('span').text(on ? 'Tersimpan' : 'Simpan');
     });
 }
 
@@ -532,14 +513,14 @@ function renderRecipeFilters() {
             ${HEART} Favorit
         </button>`);
 
-    $('recipe-filters').innerHTML = chips.join('');
+    $('#recipe-filters').html(chips.join(''));
 }
 
 function renderRecipes() {
-    const q = state.qResep.trim().toLowerCase();
+    const q = $.trim(state.qResep).toLowerCase();
     const list = recipes.filter(r => matchKategori(r) && (!q || recipeText(r).includes(q)));
 
-    $('resep-count').textContent = q || state.kategori !== 'Semua' ? `${list.length} hasil` : '';
+    $('#resep-count').text(q || state.kategori !== 'Semua' ? `${list.length} hasil` : '');
 
     let empty = `
         <div class="empty">
@@ -558,16 +539,17 @@ function renderRecipes() {
             </div>`;
     }
 
-    $('recipe-container').innerHTML = list.length ? list.map(r => cardHTML(r, q)).join('') : empty;
+    $('#recipe-container').html(list.length ? list.map(r => cardHTML(r, q)).join('') : empty);
 }
 
 function openRecipe(id) {
     const index = recipes.findIndex(r => r.id === id);
+    if (index === -1) return;
     const r = recipes[index];
     const prev = recipes[(index - 1 + recipes.length) % recipes.length];
     const next = recipes[(index + 1) % recipes.length];
 
-    $('modal-content').innerHTML = `
+    $('#modal-content').html(`
         <button type="button" class="modal-close" data-close aria-label="Tutup">×</button>
         <p class="eyebrow">${r.kategori.toLowerCase()}</p>
         <h2 id="modal-title">${r.nama}</h2>
@@ -622,26 +604,28 @@ function openRecipe(id) {
             <a href="#resep/${prev.id}"><small>← Sebelumnya</small>${prev.nama}</a>
             <a href="#resep/${next.id}"><small>Berikutnya →</small>${next.nama}</a>
         </nav>
-    `;
+    `);
 
-    const modal = $('recipe-modal');
-    if (!modal.classList.contains('open')) {
+    const $modal = $('#recipe-modal');
+    if (!$modal.hasClass('open')) {
         lastFocus = document.activeElement;
-        modal.classList.add('open');
-        document.body.style.overflow = 'hidden';
+        $modal.addClass('open');
+        $('body').css('overflow', 'hidden');
     }
-    $('modal-content').scrollTop = 0;
-    modal.querySelector('.modal-close').focus();
+    $('#modal-content').scrollTop(0);
+    $modal.find('.modal-close').trigger('focus');
     document.title = `${r.nama} — Thibbun Nabawi`;
 }
 
 function hideModal() {
-    const modal = $('recipe-modal');
-    if (!modal.classList.contains('open')) return;
-    modal.classList.remove('open');
-    document.body.style.overflow = '';
+    const $modal = $('#recipe-modal');
+    if (!$modal.hasClass('open')) return;
+    $modal.removeClass('open');
+    $('body').css('overflow', '');
     document.title = 'Thibbun Nabawi — catatan resep dari meja makan';
-    if (lastFocus) lastFocus.focus({ preventScroll: true });
+    if (lastFocus && typeof lastFocus.focus === 'function') {
+        $(lastFocus).trigger('focus');
+    }
 }
 
 function closeRecipe() {
@@ -649,7 +633,8 @@ function closeRecipe() {
     hideModal();
     if (openedFromLink) {
         openedFromLink = false;
-        $('resep').scrollIntoView({ behavior: 'instant' });
+        const resep = document.getElementById('resep');
+        if (resep) resep.scrollIntoView({ behavior: 'instant' });
     }
 }
 
@@ -657,21 +642,21 @@ function closeRecipe() {
 function renderKamusFilters() {
     const groups = ['Semua', 'Alkohol', 'Babi', 'Lainnya'];
     const label = { Babi: 'Babi & turunannya', Lainnya: 'Perlu dicek' };
-    $('kamus-filters').innerHTML = groups.map(g => {
+    $('#kamus-filters').html(groups.map(g => {
         return `<button type="button" class="chip ${g === state.kelompok ? 'active' : ''}" data-kelompok="${g}">${label[g] || g}</button>`;
-    }).join('');
+    }).join(''));
 }
 
 function renderKamus() {
-    const q = state.qKamus.trim().toLowerCase();
+    const q = $.trim(state.qKamus).toLowerCase();
     const items = kamus.filter(k =>
         (state.kelompok === 'Semua' || k.kelompok === state.kelompok) &&
         (!q || [k.dari, k.jenis, k.ke, k.catatan].some(t => t.toLowerCase().includes(q)))
     );
 
-    $('kamus-count').textContent = `${items.length} bahan`;
+    $('#kamus-count').text(`${items.length} bahan`);
 
-    $('kamus-container').innerHTML = items.length
+    $('#kamus-container').html(items.length
         ? items.map(k => `
             <div class="dict-item">
                 <div class="dict-from">
@@ -688,157 +673,156 @@ function renderKamus() {
                <b>Hmm, belum ada di catatan kami.</b>
                Coba kata lain, atau
                <button type="button" class="link-btn" data-reset="kamus">tampilkan semua bahan</button>.
-           </div>`;
+           </div>`);
 }
 
-/* ---------- event ---------- */
-document.addEventListener('click', e => {
-    const el = e.target.closest('[data-kategori], [data-kelompok], [data-reset], [data-close], [data-action]');
-    const fav = e.target.closest('[data-fav]');
-
-    if (fav) {
-        e.preventDefault();
-        return toggleFav(fav.dataset.fav);
-    }
-    if (e.target.id === 'recipe-modal') return closeRecipe();
-    if (e.target.matches('.steps li')) e.target.classList.toggle('done');
-
-    // tutup modal login jika klik di luar
-    if (e.target.id === 'login-modal') closeLogin();
-
-    if (!el) return;
-
-    if (el.dataset.kategori) {
-        state.kategori = el.dataset.kategori;
-        renderRecipeFilters();
-        renderRecipes();
-    } else if (el.dataset.kelompok) {
-        state.kelompok = el.dataset.kelompok;
-        renderKamusFilters();
-        renderKamus();
-    } else if (el.dataset.reset === 'resep') {
-        state.qResep = '';
-        state.kategori = 'Semua';
-        $('search-resep').value = '';
-        renderRecipeFilters();
-        renderRecipes();
-    } else if (el.dataset.reset === 'kamus') {
-        state.qKamus = '';
-        state.kelompok = 'Semua';
-        $('search-kamus').value = '';
-        renderKamusFilters();
-        renderKamus();
-    } else if ('close' in el.dataset) {
-        closeRecipe();
-    } else if (el.dataset.action === 'print') {
-        window.print();
-    } else if (el.dataset.action === 'copy') {
-        navigator.clipboard?.writeText(location.href)
-            .then(() => showToast('Tautan resep disalin'))
-            .catch(() => showToast('Gagal menyalin, salin dari address bar ya'));
-    }
-});
-
-// ---------- login modal ----------
+/* ---------- modal login ---------- */
 function openLogin() {
-    const modal = $('login-modal');
     lastFocus = document.activeElement;
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    $('login-nama').focus();
+    $('#login-modal').addClass('open');
+    $('body').css('overflow', 'hidden');
+    $('#login-nama').trigger('focus');
 }
 
 function closeLogin() {
-    const modal = $('login-modal');
-    if (!modal.classList.contains('open')) return;
-    modal.classList.remove('open');
-    document.body.style.overflow = '';
-    if (lastFocus) lastFocus.focus({ preventScroll: true });
+    const $modal = $('#login-modal');
+    if (!$modal.hasClass('open')) return;
+    $modal.removeClass('open');
+    $('body').css('overflow', '');
+    if (lastFocus && typeof lastFocus.focus === 'function') {
+        $(lastFocus).trigger('focus');
+    }
 }
 
-document.addEventListener('click', e => {
-    if (e.target.matches('[data-page="masuk"]')) {
+/* ---------- event (jQuery delegation) ---------- */
+$(function () {
+    $(document)
+        .on('click', '[data-fav]', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleFav($(this).data('fav'));
+        })
+        .on('click', '#recipe-modal', function (e) {
+            if (e.target.id === 'recipe-modal') closeRecipe();
+        })
+        .on('click', '#login-modal', function (e) {
+            if (e.target.id === 'login-modal') closeLogin();
+        })
+        .on('click', '.steps li', function () {
+            $(this).toggleClass('done');
+        })
+        .on('click', '[data-kategori]', function () {
+            state.kategori = $(this).data('kategori');
+            renderRecipeFilters();
+            renderRecipes();
+        })
+        .on('click', '[data-kelompok]', function () {
+            state.kelompok = $(this).data('kelompok');
+            renderKamusFilters();
+            renderKamus();
+        })
+        .on('click', '[data-reset="resep"]', function () {
+            state.qResep = '';
+            state.kategori = 'Semua';
+            $('#search-resep').val('');
+            renderRecipeFilters();
+            renderRecipes();
+        })
+        .on('click', '[data-reset="kamus"]', function () {
+            state.qKamus = '';
+            state.kelompok = 'Semua';
+            $('#search-kamus').val('');
+            renderKamusFilters();
+            renderKamus();
+        })
+        .on('click', '[data-close]', function () {
+            closeRecipe();
+        })
+        .on('click', '[data-action="print"]', function () {
+            window.print();
+        })
+        .on('click', '[data-action="copy"]', function () {
+            const text = location.href;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text)
+                    .then(() => showToast('Tautan resep disalin'))
+                    .catch(() => showToast('Gagal menyalin, salin dari address bar ya'));
+            } else {
+                showToast('Gagal menyalin, salin dari address bar ya');
+            }
+        })
+        .on('click', 'nav a.btn-login', function (e) {
+            e.preventDefault();
+            if (isLoggedIn()) logout();
+            else openLogin();
+        })
+        .on('click', '[data-login-close]', function (e) {
+            e.preventDefault();
+            closeLogin();
+        })
+        .on('keydown', function (e) {
+            if ($('#login-modal').hasClass('open') && e.key === 'Escape') {
+                closeLogin();
+            }
+            if ($('#recipe-modal').hasClass('open')) {
+                if (e.key === 'Escape') closeRecipe();
+                if (e.key === 'Enter' && $(e.target).is('.steps li')) {
+                    $(e.target).toggleClass('done');
+                }
+                if (e.key === 'Tab') {
+                    const $focusable = $('#recipe-modal').find('button, a, input, [tabindex="0"]');
+                    const first = $focusable.first()[0];
+                    const last = $focusable.last()[0];
+                    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); $(last).trigger('focus'); }
+                    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); $(first).trigger('focus'); }
+                }
+            }
+        });
+
+    $('#form-login').on('submit', function (e) {
         e.preventDefault();
-        if (isLoggedIn()) {
-            logout();
-        } else {
-            openLogin();
+        const nama = $.trim($('#login-nama').val());
+        const $status = $('#login-status');
+        if (!nama) {
+            $status.text('Nama wajib diisi.').removeClass('ok').addClass('err');
+            return;
         }
-    }
-    if (e.target.matches('[data-login-close]')) {
-        e.preventDefault();
+        saveLogin({ nama });
+        this.reset();
+        $status.text('').removeClass('err ok');
         closeLogin();
-    }
-});
+        showToast(`Selamat datang, ${nama}`);
+    });
 
-document.addEventListener('keydown', e => {
-    const modal = $('login-modal');
-    if (!modal.classList.contains('open')) return;
-    if (e.key === 'Escape') closeLogin();
-});
+    $('#form-masuk').on('submit', handleInboxForm);
+    $('#form-tambah-resep').on('submit', handleAddRecipeForm);
 
-// ---------- form login ----------
-$('form-login').addEventListener('submit', e => {
-    e.preventDefault();
-    const nama = $('login-nama').value.trim();
-    const status = $('login-status');
-    if (!nama) {
-        status.textContent = 'Nama wajib diisi.';
-        status.className = 'form-hint err';
-        return;
-    }
-    saveLogin({ nama });
-    $('form-login').reset();
-    status.textContent = '';
-    closeLogin();
-    showToast(`Selamat datang, ${nama}`);
-});
+    let resepTimer, kamusTimer;
+    $('#search-resep').on('input', function () {
+        clearTimeout(resepTimer);
+        const v = this.value;
+        resepTimer = setTimeout(() => { state.qResep = v; renderRecipes(); }, 150);
+    });
 
-// ---------- form kotak masuk ----------
-$('form-masuk').addEventListener('submit', handleInboxForm);
+    $('#search-kamus').on('input', function () {
+        clearTimeout(kamusTimer);
+        const v = this.value;
+        kamusTimer = setTimeout(() => { state.qKamus = v; renderKamus(); }, 150);
+    });
 
-// ---------- form tambah resep ----------
-$('form-tambah-resep').addEventListener('submit', handleAddRecipeForm);
+    $(window).on('hashchange', route);
 
-document.addEventListener('keydown', e => {
-    const modal = $('recipe-modal');
-    if (!modal.classList.contains('open')) return;
-
-    if (e.key === 'Escape') closeRecipe();
-
-    if (e.key === 'Enter' && e.target.matches('.steps li')) e.target.classList.toggle('done');
-
-    if (e.key === 'Tab') {
-        const focusable = modal.querySelectorAll('button, a, input, [tabindex="0"]');
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    }
-});
-
-$('search-resep').addEventListener('input', e => {
-    state.qResep = e.target.value;
+    loadFavorites();
+    loadLogin();
+    renderAdab();
+    renderRecipeFilters();
     renderRecipes();
-});
-
-$('search-kamus').addEventListener('input', e => {
-    state.qKamus = e.target.value;
+    renderKamusFilters();
     renderKamus();
+    watchSections();
+
+    if (recipeFromHash()) {
+        openedFromLink = true;
+        route();
+    }
 });
-
-window.addEventListener('hashchange', route);
-
-loadFavorites();
-loadLogin();
-renderAdab();
-renderRecipeFilters();
-renderRecipes();
-renderKamusFilters();
-renderKamus();
-watchSections();
-
-if (recipeFromHash()) {
-    openedFromLink = true;
-    route();
-}
