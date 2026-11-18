@@ -7,6 +7,45 @@ const state = { kategori: 'Semua', qResep: '', kelompok: 'Semua', qKamus: '' };
 let lastFocus = null;
 let openedFromLink = false;
 
+/* ---------- Supabase ---------- */
+let supabaseClient = null;
+
+function isSupabaseConfigured() {
+    return typeof window.SUPABASE_URL === 'string' &&
+        window.SUPABASE_URL &&
+        !window.SUPABASE_URL.includes('YOUR_PROJECT_REF') &&
+        typeof window.SUPABASE_ANON_KEY === 'string' &&
+        window.SUPABASE_ANON_KEY &&
+        window.SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY';
+}
+
+function initSupabase() {
+    if (supabaseClient) return supabaseClient;
+    if (isSupabaseConfigured() && window.supabase && typeof window.supabase.createClient === 'function') {
+        supabaseClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+    }
+    return supabaseClient;
+}
+
+function mapResepRow(row) {
+    return {
+        id: row.slug || ('db-' + row.id),
+        db_id: row.id,
+        nama: row.nama,
+        kategori: row.kategori,
+        waktu: row.waktu_masak || '',
+        porsi: row.porsi || 1,
+        warna: row.warna || '#3f6b4a',
+        inisial: row.inisial || (row.nama ? String(row.nama).slice(0, 2) : ''),
+        ringkas: row.ringkas || '',
+        nutrisi: row.nutrisi || { kalori: 0, karbo: 0, protein: 0, lemak: 0, serat: 0 },
+        bahan: Array.isArray(row.bahan) ? row.bahan : [],
+        langkah: Array.isArray(row.langkah) ? row.langkah : [],
+        dalil: row.dalil || '',
+        sumber: row.sumber || ''
+    };
+}
+
 /* ---------- login state (hanya di perangkat) ---------- */
 const LOGIN_KEY = 'thibbun-nabawi:user';
 const INBOX_KEY = 'thibbun-nabawi:inbox';
@@ -57,32 +96,36 @@ function updateLoginUI() {
     }
 }
 
-/* ---------- utilitas AJAX ---------- */
+/* ---------- utilitas ---------- */
 function setLoading($el, text) {
     $el.html(`<div class="empty"><b>${escapeHtml(text)}</b></div>`);
 }
 
-function ajaxErrorMessage(jqXHR) {
-    if (jqXHR && jqXHR.status === 0) return 'Tidak bisa terhubung. Jalankan lewat server lokal (mis. Live Server/XAMPP).';
-    if (jqXHR && jqXHR.status) return `Gagal memuat data (HTTP ${jqXHR.status}).`;
+function ajaxErrorMessage(err) {
+    if (!err) return 'Gagal memuat data.';
+    if (err.status === 0) return 'Tidak bisa terhubung. Periksa koneksi atau jalankan lewat server lokal.';
+    if (err.status) return `Gagal memuat data (HTTP ${err.status}).`;
+    if (err.message) return `Gagal memuat data (${err.message}).`;
     return 'Gagal memuat data.';
 }
 
-/* ---------- memuat data via AJAX ---------- */
+/* ---------- memuat data via AJAX/Supabase ---------- */
 let dataReady = false;
 
-function getResepData() {
-    // Prioritas: ambil dari database (SQL) via API, fallback ke file JSON statis
-    return $.ajax({ url: 'api/get_resep.php', method: 'GET', dataType: 'json', timeout: 8000 })
-        .then(function (data) {
-            const list = Array.isArray(data) ? data : (data && Array.isArray(data.data) ? data.data : null);
-            if (!list) return $.Deferred().reject().promise();
-            return list;
-        }, function () {
-            return $.getJSON('data/resep.json').then(function (data) {
-                return Array.isArray(data) ? data : [];
-            });
-        });
+async function getResepData() {
+    const sb = initSupabase();
+    if (sb) {
+        const { data, error } = await sb
+            .from('resep')
+            .select('*')
+            .eq('disetujui', true)
+            .order('created_at', { ascending: true })
+            .order('id', { ascending: true });
+        if (error) throw error;
+        return Array.isArray(data) ? data.map(mapResepRow) : [];
+    }
+    const data = await $.getJSON('data/resep.json');
+    return Array.isArray(data) ? data : [];
 }
 
 function loadData() {
@@ -91,27 +134,25 @@ function loadData() {
     setLoading($('#recipe-container'), 'Memuat resep…');
     setLoading($('#kamus-container'), 'Memuat kamus bahan…');
 
-    const resepReq = getResepData();
-    const kamusReq = $.getJSON('data/kamus.json');
-    const adabReq = $.getJSON('data/adab.json');
+    const resepReq = getResepData().catch(function () {
+        return $.getJSON('data/resep.json').then(function (data) {
+            return Array.isArray(data) ? data : [];
+        });
+    });
+    const kamusReq = $.getJSON('data/kamus.json').then(function (d) { return Array.isArray(d) ? d : []; });
+    const adabReq = $.getJSON('data/adab.json').then(function (d) { return Array.isArray(d) ? d : []; });
 
-    return $.when(resepReq, kamusReq, adabReq).done(function (resepData, kamusRes, adabRes) {
-        if (Array.isArray(resepData)) {
-            recipes = resepData;
-        } else if (resepData && Array.isArray(resepData[0])) {
-            recipes = resepData[0];
-        } else {
-            recipes = [];
-        }
-        kamus = Array.isArray(kamusRes[0]) ? kamusRes[0] : [];
-        adab = Array.isArray(adabRes[0]) ? adabRes[0] : [];
+    return $.when(resepReq, kamusReq, adabReq).done(function (resepData, kamusData, adabData) {
+        recipes = Array.isArray(resepData) ? resepData : (Array.isArray(resepData && resepData[0]) ? resepData[0] : []);
+        kamus = Array.isArray(kamusData) ? kamusData : (Array.isArray(kamusData && kamusData[0]) ? kamusData[0] : []);
+        adab = Array.isArray(adabData) ? adabData : (Array.isArray(adabData && adabData[0]) ? adabData[0] : []);
         dataReady = true;
-    }).fail(function (jqXHR) {
-        const msg = ajaxErrorMessage(jqXHR);
+    }).fail(function (err) {
+        const msg = ajaxErrorMessage(err);
         $('#adab-list').html(`<li><p>${escapeHtml(msg)}</p></li>`);
         $('#recipe-container').html(`<div class="empty"><b>${escapeHtml(msg)}</b><br><button type="button" class="link-btn" data-reload="data">Coba muat ulang</button></div>`);
         $('#kamus-container').html(`<div class="empty"><b>${escapeHtml(msg)}</b><br><button type="button" class="link-btn" data-reload="data">Coba muat ulang</button></div>`);
-        showToast('Gagal memuat data via AJAX');
+        showToast('Gagal memuat data');
     });
 }
 
@@ -132,7 +173,7 @@ function simpanInboxLokal(payload) {
     saveInbox(masuk);
 }
 
-function handleInboxForm(e) {
+async function handleInboxForm(e) {
     e.preventDefault();
     if (!currentUser) {
         showToast('Silakan masuk terlebih dahulu');
@@ -160,26 +201,31 @@ function handleInboxForm(e) {
     $btn.prop('disabled', true).text('Mengirim…');
     $status.text('Mengirim pesan…').removeClass('ok err');
 
-    $.ajax({
-        url: 'api/kirim_pesan.php',
-        method: 'POST',
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify(payload),
-        timeout: 8000
-    }).done(function () {
-        simpanInboxLokal(payload);
-        $('#form-masuk')[0].reset();
-        $status.text('Pesan terkirim. Terima kasih atas masukan Anda!').removeClass('err').addClass('ok');
-    }).fail(function () {
+    const sb = initSupabase();
+    try {
+        if (sb) {
+            const { error } = await sb.from('pesan').insert({
+                user_nama: currentUser.nama,
+                nama,
+                email: email || null,
+                pesan
+            });
+            if (error) throw error;
+            simpanInboxLokal(payload);
+            $('#form-masuk')[0].reset();
+            $status.text('Pesan terkirim. Terima kasih atas masukan Anda!').removeClass('err').addClass('ok');
+        } else {
+            throw new Error('Supabase belum dikonfigurasi');
+        }
+    } catch (err) {
         // fallback: simpan lokal agar data tetap masuk
         simpanInboxLokal(payload);
         $('#form-masuk')[0].reset();
-        $status.text('Pesan disimpan di perangkat ini (server tidak tersedia).').removeClass('err').addClass('ok');
-    }).always(function () {
+        $status.text('Pesan disimpan di perangkat ini (database tidak tersedia).').removeClass('err').addClass('ok');
+    } finally {
         $btn.prop('disabled', false).text('Kirim Pesan');
         setTimeout(() => { $status.text('').removeClass('ok'); }, 4000);
-    });
+    }
 }
 
 /* ---------- tambah resep ---------- */
@@ -199,7 +245,7 @@ function simpanResepLokal(payload) {
     saveSubmittedRecipes(list);
 }
 
-function handleAddRecipeForm(e) {
+async function handleAddRecipeForm(e) {
     e.preventDefault();
     if (!currentUser) {
         showToast('Silakan masuk terlebih dahulu');
@@ -238,27 +284,42 @@ function handleAddRecipeForm(e) {
     $btn.prop('disabled', true).text('Mengirim…');
     $status.text('Mengirim resep…').removeClass('ok err');
 
-    $.ajax({
-        url: 'api/kirim_resep.php',
-        method: 'POST',
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify(payload),
-        timeout: 8000
-    }).done(function () {
+    const sb = initSupabase();
+    try {
+        if (sb) {
+            const inisial = String(nama).trim().slice(0, 2).toUpperCase();
+            const { error } = await sb.from('resep').insert({
+                nama,
+                kategori,
+                waktu_masak: waktu,
+                porsi,
+                warna: '#3f6b4a',
+                inisial,
+                ringkas,
+                nutrisi: { kalori: 0, karbo: 0, protein: 0, lemak: 0, serat: 0 },
+                bahan,
+                langkah,
+                dalil: dalil || null,
+                user_id: currentUser.id || null,
+                disetujui: false
+            });
+            if (error) throw error;
+            simpanResepLokal(payload);
+            $('#form-tambah-resep')[0].reset();
+            $('#resep-porsi').val(1);
+            $status.text('Resep terkirim. Akan ditinjau sebelum ditampilkan.').removeClass('err').addClass('ok');
+        } else {
+            throw new Error('Supabase belum dikonfigurasi');
+        }
+    } catch (err) {
         simpanResepLokal(payload);
         $('#form-tambah-resep')[0].reset();
         $('#resep-porsi').val(1);
-        $status.text('Resep terkirim. Akan ditinjau sebelum ditampilkan.').removeClass('err').addClass('ok');
-    }).fail(function () {
-        simpanResepLokal(payload);
-        $('#form-tambah-resep')[0].reset();
-        $('#resep-porsi').val(1);
-        $status.text('Resep disimpan di perangkat ini (server tidak tersedia).').removeClass('err').addClass('ok');
-    }).always(function () {
+        $status.text('Resep disimpan di perangkat ini (database tidak tersedia).').removeClass('err').addClass('ok');
+    } finally {
         $btn.prop('disabled', false).text('Kirim Resep');
         setTimeout(() => { $status.text('').removeClass('ok'); }, 5000);
-    });
+    }
 }
 
 function escapeHtml(str) {
@@ -724,7 +785,7 @@ $(function () {
             }
         });
 
-    $('#form-login').on('submit', function (e) {
+    $('#form-login').on('submit', async function (e) {
         e.preventDefault();
         const nama = $.trim($('#login-nama').val());
         const $status = $('#login-status');
@@ -735,32 +796,48 @@ $(function () {
         }
 
         $btn.prop('disabled', true).text('Memproses…');
-        $status.text('Menghubungkan ke server…').removeClass('ok err');
+        $status.text('Menghubungkan ke database…').removeClass('ok err');
 
-        $.ajax({
-            url: 'api/login.php',
-            method: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            data: JSON.stringify({ nama }),
-            timeout: 8000
-        }).done(function (res) {
-            const user = res && res.user ? res.user : { nama };
+        const sb = initSupabase();
+        try {
+            if (!sb) throw new Error('Supabase belum dikonfigurasi');
+
+            let user = null;
+            const { data: found, error: findErr } = await sb
+                .from('users')
+                .select('id, nama')
+                .eq('nama', nama)
+                .maybeSingle();
+            if (findErr) throw findErr;
+
+            if (found) {
+                user = { id: found.id, nama: found.nama };
+                await sb.from('users').update({ last_login: new Date().toISOString() }).eq('id', found.id);
+            } else {
+                const { data: inserted, error: insErr } = await sb
+                    .from('users')
+                    .insert({ nama, last_login: new Date().toISOString() })
+                    .select('id, nama')
+                    .single();
+                if (insErr) throw insErr;
+                user = { id: inserted.id, nama: inserted.nama };
+            }
+
             saveLogin(user);
             $('#form-login')[0].reset();
             $status.text('').removeClass('err ok');
             closeLogin();
             showToast(`Selamat datang, ${user.nama || nama}`);
-        }).fail(function () {
-            // fallback: login lokal jika server/database tidak tersedia
+        } catch (err) {
+            // fallback: login lokal jika Supabase belum siap/tidak tersedia
             saveLogin({ nama });
             $('#form-login')[0].reset();
             $status.text('').removeClass('err ok');
             closeLogin();
             showToast(`Selamat datang, ${nama} (mode lokal)`);
-        }).always(function () {
+        } finally {
             $btn.prop('disabled', false).text('Masuk');
-        });
+        }
     });
 
     $('#form-masuk').on('submit', handleInboxForm);
