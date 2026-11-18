@@ -1,0 +1,165 @@
+[
+  {
+    "id": "talbinah",
+    "nama": "Talbinah Susu Madu",
+    "kategori": "Sarapan",
+    "waktu": "25 mnt",
+    "porsi": 1,
+    "warna": "#b08a4f",
+    "inisial": "Tb",
+    "ringkas": "Bubur barley lembut yang dimasak dengan susu, lalu disiram madu. Hangat dan bikin kenyang lama.",
+    "nutrisi": { "kalori": 115, "karbo": 20, "protein": 3, "lemak": 3, "serat": 2 },
+    "bahan": [
+      "2 sdm tepung barley (atau barley utuh yang diblender)",
+      "200 ml susu cair",
+      "½ batang kayu manis (opsional)",
+      "1 sdm madu",
+      "1–2 butir kurma, cincang kasar"
+    ],
+    "langkah": [
+      "Larutkan tepung barley dengan sedikit susu dingin supaya tidak menggumpal.",
+      "Panaskan sisa susu bersama kayu manis sampai hampir mendidih.",
+      "Masukkan larutan barley, aduk terus dengan api kecil 10–15 menit sampai mengental.",
+      "Matikan api, tunggu agak hangat, baru tambahkan madu (jangan saat masih mendidih).",
+      "Sajikan dengan taburan kurma cincang."
+    ],
+    "dalil": "Talbinah itu menenangkan hati orang yang sakit dan menghilangkan sebagian kesedihan.",
+    "sumber": "HR. Bukhari, dari Aisyah radhiyallahu ‘anha"
+  },
+  {
+    "id": "sup-labu",
+    "nama": "Sup Labu Kuning & Daging",
+    "kategori": "Hidangan Utama",
+    "waktu": "50 mnt",
+    "porsi": 1,
+    "warna": "#c9772b",
+    "inisial": "Lb",
+    "ringkas": "Labu kuning dimasak bersama potongan daging sapi dan rempah. Kuahnya manis gurih, cocok buat makan malam.",
+    "nutrisi": { "kalori": 53, "karbo": 2, "protein": 5, "lemak": 3, "serat": 1 },
+    "bahan": [
+      "75 g daging sapi, potong dadu",
+      "100 g labu kuning, potong besar",
+      "¼ bawang bombay, iris",
+      "1 siung bawang putih, geprek",
+      "¼ sdt jintan bubuk",
+      "250 ml air",
+      "Garam, lada, dan minyak zaitun secukupnya"
+    ],
+    "langkah": [
+      "Tumis bawang bombay dan bawang putih dengan minyak zaitun sampai harum.",
+      "Masukkan daging, aduk sampai berubah warna, lalu taburi jintan.",
+      "Tuang air, masak dengan api kecil sekitar 30 menit sampai daging empuk.",
+      "Tambahkan labu, masak lagi 10–15 menit sampai labu lunak tapi belum hancur.",
+      "Bumbui garam dan lada. Cicipi, sesuaikan."
+    ],
+    "dalil": "Anas bin Malik melihat Rasulullah ﷺ mencari-cari potongan labu di sekeliling piring. Sejak itu Anas selalu menyukai labu.",
+    "sumber": "HR. Bukhari & Muslim"
+  },
+  {
+    "id": "timun-kurma",
+    "nama": "Salad Timun & Kurma Segar",
+    "kategori": "Pelengkap",
+    "waktu": "10 mnt",
+    "porsi": 1,
+    "warna": "#5c6b3a",
+    "inisial": "Tk",
+    "ringkas": "Perpaduan dingin dan manis. Timun yang segar ketemu kurma yang legit — ternyata ini kombinasi yang Nabi ﷺ suka.",
+    "nutrisi": { "kalori": 90, "karbo": 15, "protein": 1, "lemak": 3, "serat": 2 },
+    "bahan": [
+      "1 buah timun, iris tipis",
+      "3 butir kurma, buang biji dan belah",
+      "½ sdm minyak zaitun",
+      "½ sdt air jeruk nipis",
+      "Sejumput garam dan daun mint secukupnya"
+    ],
+    "langkah": [
+      "Tata irisan timun di piring saji.",
+      "Letakkan kurma di atasnya.",
+      "Campur minyak zaitun, air jeruk nipis, dan garam, lalu siramkan.",
+      "Beri daun mint dan sajikan dingin."
+    ],
+    "dalil": "Aku melihat Rasulullah ﷺ makan mentimun bersama kurma basah (ruthab).",
+    "sumber": "HR. Bukhari & Muslim, dari Abdullah bin Ja‘far"
+  },
+  {
+    "id": "roti-cuka",
+    "nama": "Roti Celup Zaitun & Cuka Apel",
+    "kategori": "Sarapan",
+    "waktu": "5 mnt",
+    "porsi": 1,
+    "warna": "#7a3e1d",
+    "inisial": "Rc",
+    "ringkas": "Sarapan paling sederhana di buku ini. Roti hangat, cocolan minyak zaitun, cuka apel, dan sedikit za’atar.",
+    "nutrisi": { "kalori": 450, "karbo": 30, "protein": 6, "lemak": 35, "serat": 4 },
+    "bahan": [
+      "2 lembar roti pita atau roti gandum",
+      "3 sdm minyak zaitun extra virgin",
+      "1 sdm cuka apel",
+      "½ sdt za’atar atau oregano kering",
+      "Sejumput garam laut"
+    ],
+    "langkah": [
+      "Panggang roti sebentar di teflon sampai hangat dan sedikit renyah.",
+      "Tuang minyak zaitun ke piring kecil, teteskan cuka apel di tengahnya.",
+      "Taburi za’atar dan garam.",
+      "Sobek roti, celupkan, nikmati pelan-pelan."
+    ],
+    "dalil": "Sebaik-baik lauk adalah cuka.",
+    "sumber": "HR. Muslim, dari Jabir bin Abdillah"
+  },
+  {
+    "id": "tharid",
+    "nama": "Tharid Kuah Kambing",
+    "kategori": "Hidangan Utama",
+    "waktu": "90 mnt",
+    "porsi": 1,
+    "warna": "#8f3b22",
+    "inisial": "Th",
+    "ringkas": "Roti yang disobek lalu disiram kuah daging kambing berbumbu. Makanan istimewa yang Nabi ﷺ jadikan perumpamaan.",
+    "nutrisi": { "kalori": 100, "karbo": 5, "protein": 6, "lemak": 6, "serat": 1 },
+    "bahan": [
+      "125 g daging kambing, potong",
+      "½ buah roti pita / roti maryam, sobek-sobek",
+      "½ buah tomat, potong",
+      "¼ bawang bombay, cincang",
+      "¼ sdt lada hitam, ¼ sdt kapulaga, 1 lembar daun salam",
+      "300 ml air",
+      "Garam secukupnya"
+    ],
+    "langkah": [
+      "Rebus kambing sebentar, buang air pertama supaya tidak prengus.",
+      "Tumis bawang bombay sampai layu, masukkan daging, tomat, dan rempah.",
+      "Tuang air baru, masak dengan api kecil sekitar 1 jam sampai empuk.",
+      "Susun sobekan roti di mangkuk lebar.",
+      "Siram kuah panas dan daging di atasnya, diamkan 2 menit supaya roti menyerap kuah."
+    ],
+    "dalil": "Keutamaan Aisyah atas wanita lain seperti keutamaan tharid atas makanan lainnya.",
+    "sumber": "HR. Bukhari & Muslim"
+  },
+  {
+    "id": "wedang-habbats",
+    "nama": "Wedang Jahe Madu Habbatussauda",
+    "kategori": "Minuman",
+    "waktu": "15 mnt",
+    "porsi": 1,
+    "warna": "#2b2420",
+    "inisial": "Wj",
+    "ringkas": "Minuman hangat buat malam hujan. Jahe bakar, madu, dan sedikit jintan hitam yang disangrai.",
+    "nutrisi": { "kalori": 35, "karbo": 9, "protein": 0, "lemak": 0, "serat": 0 },
+    "bahan": [
+      "½ ruas jahe besar, bakar lalu geprek",
+      "½ batang serai, geprek",
+      "¼ sdt habbatussauda, sangrai sebentar",
+      "1 sdm madu",
+      "250 ml air"
+    ],
+    "langkah": [
+      "Rebus air bersama jahe dan serai sekitar 10 menit.",
+      "Masukkan habbatussauda, rebus 2 menit lagi.",
+      "Saring ke gelas, biarkan agak hangat.",
+      "Aduk madu ke dalamnya, lalu minum selagi hangat."
+    ],
+    "dalil": "Habbatussauda ini adalah obat untuk segala penyakit, kecuali kematian.",
+    "sumber": "HR. Bukhari & Muslim, dari Abu Hurairah"
+  }
+]

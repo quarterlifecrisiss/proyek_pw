@@ -1,0 +1,20 @@
+[
+  { "kelompok": "Alkohol", "dari": "Mirin", "jenis": "Arak beras manis (Jepang)", "ke": "Air + madu + sedikit cuka beras", "catatan": "3 sdm air, 1 sdm madu, ½ sdt cuka beras. Rasanya manis-asam mirip aslinya." },
+  { "kelompok": "Alkohol", "dari": "Sake", "jenis": "Arak beras (Jepang)", "ke": "Kaldu ayam / kaldu dashi", "catatan": "Untuk marinasi, tambahkan sedikit air jahe biar bau amisnya hilang." },
+  { "kelompok": "Alkohol", "dari": "Angciu / Shaoxing", "jenis": "Arak masak (Tiongkok)", "ke": "Kaldu + kecap asin + cuka hitam", "catatan": "Perbandingan 3 : 1 : ½. Cocok untuk tumisan dan bebek." },
+  { "kelompok": "Alkohol", "dari": "Red wine", "jenis": "Anggur merah beralkohol", "ke": "Jus anggur merah + cuka apel", "catatan": "Untuk semur daging atau saus bolognese. Kurangi gula di resep karena jusnya sudah manis." },
+  { "kelompok": "Alkohol", "dari": "White wine", "jenis": "Anggur putih beralkohol", "ke": "Kaldu ayam + air jeruk lemon", "catatan": "Pas untuk risotto atau saus krim. Sedikit lemon saja, jangan terlalu asam." },
+  { "kelompok": "Alkohol", "dari": "Rum", "jenis": "Minuman keras dari tebu", "ke": "Jus nanas atau air kelapa", "catatan": "Untuk kue, aroma rum bisa diganti perisa rum yang bersertifikat halal." },
+  { "kelompok": "Alkohol", "dari": "Brandy / Cognac", "jenis": "Minuman keras", "ke": "Jus apel atau jus pir", "catatan": "Kalau untuk flambé, lewati saja langkahnya — rasanya tetap enak." },
+  { "kelompok": "Alkohol", "dari": "Bir (untuk adonan)", "jenis": "Minuman fermentasi beralkohol", "ke": "Air soda dingin", "catatan": "Gelembungnya bikin adonan gorengan tetap renyah, sama seperti bir." },
+  { "kelompok": "Alkohol", "dari": "Marsala", "jenis": "Anggur fortifikasi (Italia)", "ke": "Jus anggur + sedikit cuka balsamic", "catatan": "Untuk tiramisu, cukup pakai kopi pekat saja." },
+  { "kelompok": "Alkohol", "dari": "Kirsch", "jenis": "Brandy ceri", "ke": "Sirup ceri atau jus ceri", "catatan": "Biasanya dipakai di black forest. Jus ceri kalengan juga bisa." },
+  { "kelompok": "Babi", "dari": "Gelatin babi", "jenis": "Pengental dari kulit/tulang babi", "ke": "Agar-agar atau gelatin sapi halal", "catatan": "Agar-agar lebih cepat set dan teksturnya lebih padat. Pakai sekitar setengah takaran." },
+  { "kelompok": "Babi", "dari": "Lard", "jenis": "Lemak babi", "ke": "Mentega, ghee, atau shortening nabati", "catatan": "Untuk kulit pai yang flaky, mentega dingin paling mendekati." },
+  { "kelompok": "Babi", "dari": "Bacon", "jenis": "Daging babi asap", "ke": "Beef bacon / smoked beef", "catatan": "Atau kulit ayam yang digoreng kering + sejumput paprika asap." },
+  { "kelompok": "Babi", "dari": "Ham", "jenis": "Paha babi olahan", "ke": "Kalkun asap atau smoked beef", "catatan": "Cocok untuk isian sandwich dan roti lapis." },
+  { "kelompok": "Babi", "dari": "Pepperoni", "jenis": "Sosis babi pedas", "ke": "Pepperoni sapi halal", "catatan": "Sudah banyak dijual di supermarket. Cek logo halalnya." },
+  { "kelompok": "Lainnya", "dari": "Ekstrak vanila", "jenis": "Biasanya dilarutkan dalam alkohol", "ke": "Vanili bubuk / biji vanila asli", "catatan": "Kerok biji dari batang vanila. Aromanya malah lebih wangi." },
+  { "kelompok": "Lainnya", "dari": "Kecap inggris", "jenis": "Beberapa merek mengandung ikan teri & cuka malt", "ke": "Kecap inggris bersertifikat halal", "catatan": "Atau campur kecap asin, cuka apel, dan sedikit gula aren." },
+  { "kelompok": "Lainnya", "dari": "Keju dengan rennet hewani", "jenis": "Enzim dari lambung hewan yang tidak jelas sembelihannya", "ke": "Keju dengan rennet mikroba / nabati", "catatan": "Lihat label \"microbial rennet\" atau \"vegetarian rennet\", atau pilih yang berlogo halal." }
+]

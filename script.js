@@ -1,198 +1,6 @@
-const recipes = [
-    {
-        id: 'talbinah',
-        nama: 'Talbinah Susu Madu',
-        kategori: 'Sarapan',
-        waktu: '25 mnt',
-        porsi: 1,
-        warna: '#b08a4f',
-        inisial: 'Tb',
-        ringkas: 'Bubur barley lembut yang dimasak dengan susu, lalu disiram madu. Hangat dan bikin kenyang lama.',
-        nutrisi: { kalori: 115, karbo: 20, protein: 3, lemak: 3, serat: 2 },
-        bahan: [
-            '2 sdm tepung barley (atau barley utuh yang diblender)',
-            '200 ml susu cair',
-            '½ batang kayu manis (opsional)',
-            '1 sdm madu',
-            '1–2 butir kurma, cincang kasar'
-        ],
-        langkah: [
-            'Larutkan tepung barley dengan sedikit susu dingin supaya tidak menggumpal.',
-            'Panaskan sisa susu bersama kayu manis sampai hampir mendidih.',
-            'Masukkan larutan barley, aduk terus dengan api kecil 10–15 menit sampai mengental.',
-            'Matikan api, tunggu agak hangat, baru tambahkan madu (jangan saat masih mendidih).',
-            'Sajikan dengan taburan kurma cincang.'
-        ],
-        dalil: 'Talbinah itu menenangkan hati orang yang sakit dan menghilangkan sebagian kesedihan.',
-        sumber: 'HR. Bukhari, dari Aisyah radhiyallahu ‘anha'
-    },
-    {
-        id: 'sup-labu',
-        nama: 'Sup Labu Kuning & Daging',
-        kategori: 'Hidangan Utama',
-        waktu: '50 mnt',
-        porsi: 1,
-        warna: '#c9772b',
-        inisial: 'Lb',
-        ringkas: 'Labu kuning dimasak bersama potongan daging sapi dan rempah. Kuahnya manis gurih, cocok buat makan malam.',
-        nutrisi: { kalori: 53, karbo: 2, protein: 5, lemak: 3, serat: 1 },
-        bahan: [
-            '75 g daging sapi, potong dadu',
-            '100 g labu kuning, potong besar',
-            '¼ bawang bombay, iris',
-            '1 siung bawang putih, geprek',
-            '¼ sdt jintan bubuk',
-            '250 ml air',
-            'Garam, lada, dan minyak zaitun secukupnya'
-        ],
-        langkah: [
-            'Tumis bawang bombay dan bawang putih dengan minyak zaitun sampai harum.',
-            'Masukkan daging, aduk sampai berubah warna, lalu taburi jintan.',
-            'Tuang air, masak dengan api kecil sekitar 30 menit sampai daging empuk.',
-            'Tambahkan labu, masak lagi 10–15 menit sampai labu lunak tapi belum hancur.',
-            'Bumbui garam dan lada. Cicipi, sesuaikan.'
-        ],
-        dalil: 'Anas bin Malik melihat Rasulullah ﷺ mencari-cari potongan labu di sekeliling piring. Sejak itu Anas selalu menyukai labu.',
-        sumber: 'HR. Bukhari & Muslim'
-    },
-    {
-        id: 'timun-kurma',
-        nama: 'Salad Timun & Kurma Segar',
-        kategori: 'Pelengkap',
-        waktu: '10 mnt',
-        porsi: 1,
-        warna: '#5c6b3a',
-        inisial: 'Tk',
-        ringkas: 'Perpaduan dingin dan manis. Timun yang segar ketemu kurma yang legit — ternyata ini kombinasi yang Nabi ﷺ suka.',
-        nutrisi: { kalori: 90, karbo: 15, protein: 1, lemak: 3, serat: 2 },
-        bahan: [
-            '1 buah timun, iris tipis',
-            '3 butir kurma, buang biji dan belah',
-            '½ sdm minyak zaitun',
-            '½ sdt air jeruk nipis',
-            'Sejumput garam dan daun mint secukupnya'
-        ],
-        langkah: [
-            'Tata irisan timun di piring saji.',
-            'Letakkan kurma di atasnya.',
-            'Campur minyak zaitun, air jeruk nipis, dan garam, lalu siramkan.',
-            'Beri daun mint dan sajikan dingin.'
-        ],
-        dalil: 'Aku melihat Rasulullah ﷺ makan mentimun bersama kurma basah (ruthab).',
-        sumber: 'HR. Bukhari & Muslim, dari Abdullah bin Ja‘far'
-    },
-    {
-        id: 'roti-cuka',
-        nama: 'Roti Celup Zaitun & Cuka Apel',
-        kategori: 'Sarapan',
-        waktu: '5 mnt',
-        porsi: 1,
-        warna: '#7a3e1d',
-        inisial: 'Rc',
-        ringkas: 'Sarapan paling sederhana di buku ini. Roti hangat, cocolan minyak zaitun, cuka apel, dan sedikit za’atar.',
-        nutrisi: { kalori: 450, karbo: 30, protein: 6, lemak: 35, serat: 4 },
-        bahan: [
-            '2 lembar roti pita atau roti gandum',
-            '3 sdm minyak zaitun extra virgin',
-            '1 sdm cuka apel',
-            '½ sdt za’atar atau oregano kering',
-            'Sejumput garam laut'
-        ],
-        langkah: [
-            'Panggang roti sebentar di teflon sampai hangat dan sedikit renyah.',
-            'Tuang minyak zaitun ke piring kecil, teteskan cuka apel di tengahnya.',
-            'Taburi za’atar dan garam.',
-            'Sobek roti, celupkan, nikmati pelan-pelan.'
-        ],
-        dalil: 'Sebaik-baik lauk adalah cuka.',
-        sumber: 'HR. Muslim, dari Jabir bin Abdillah'
-    },
-    {
-        id: 'tharid',
-        nama: 'Tharid Kuah Kambing',
-        kategori: 'Hidangan Utama',
-        waktu: '90 mnt',
-        porsi: 1,
-        warna: '#8f3b22',
-        inisial: 'Th',
-        ringkas: 'Roti yang disobek lalu disiram kuah daging kambing berbumbu. Makanan istimewa yang Nabi ﷺ jadikan perumpamaan.',
-        nutrisi: { kalori: 100, karbo: 5, protein: 6, lemak: 6, serat: 1 },
-        bahan: [
-            '125 g daging kambing, potong',
-            '½ buah roti pita / roti maryam, sobek-sobek',
-            '½ buah tomat, potong',
-            '¼ bawang bombay, cincang',
-            '¼ sdt lada hitam, ¼ sdt kapulaga, 1 lembar daun salam',
-            '300 ml air',
-            'Garam secukupnya'
-        ],
-        langkah: [
-            'Rebus kambing sebentar, buang air pertama supaya tidak prengus.',
-            'Tumis bawang bombay sampai layu, masukkan daging, tomat, dan rempah.',
-            'Tuang air baru, masak dengan api kecil sekitar 1 jam sampai empuk.',
-            'Susun sobekan roti di mangkuk lebar.',
-            'Siram kuah panas dan daging di atasnya, diamkan 2 menit supaya roti menyerap kuah.'
-        ],
-        dalil: 'Keutamaan Aisyah atas wanita lain seperti keutamaan tharid atas makanan lainnya.',
-        sumber: 'HR. Bukhari & Muslim'
-    },
-    {
-        id: 'wedang-habbats',
-        nama: 'Wedang Jahe Madu Habbatussauda',
-        kategori: 'Minuman',
-        waktu: '15 mnt',
-        porsi: 1,
-        warna: '#2b2420',
-        inisial: 'Wj',
-        ringkas: 'Minuman hangat buat malam hujan. Jahe bakar, madu, dan sedikit jintan hitam yang disangrai.',
-        nutrisi: { kalori: 35, karbo: 9, protein: 0, lemak: 0, serat: 0 },
-        bahan: [
-            '½ ruas jahe besar, bakar lalu geprek',
-            '½ batang serai, geprek',
-            '¼ sdt habbatussauda, sangrai sebentar',
-            '1 sdm madu',
-            '250 ml air'
-        ],
-        langkah: [
-            'Rebus air bersama jahe dan serai sekitar 10 menit.',
-            'Masukkan habbatussauda, rebus 2 menit lagi.',
-            'Saring ke gelas, biarkan agak hangat.',
-            'Aduk madu ke dalamnya, lalu minum selagi hangat.'
-        ],
-        dalil: 'Habbatussauda ini adalah obat untuk segala penyakit, kecuali kematian.',
-        sumber: 'HR. Bukhari & Muslim, dari Abu Hurairah'
-    }
-];
-
-const kamus = [
-    { kelompok: 'Alkohol', dari: 'Mirin', jenis: 'Arak beras manis (Jepang)', ke: 'Air + madu + sedikit cuka beras', catatan: '3 sdm air, 1 sdm madu, ½ sdt cuka beras. Rasanya manis-asam mirip aslinya.' },
-    { kelompok: 'Alkohol', dari: 'Sake', jenis: 'Arak beras (Jepang)', ke: 'Kaldu ayam / kaldu dashi', catatan: 'Untuk marinasi, tambahkan sedikit air jahe biar bau amisnya hilang.' },
-    { kelompok: 'Alkohol', dari: 'Angciu / Shaoxing', jenis: 'Arak masak (Tiongkok)', ke: 'Kaldu + kecap asin + cuka hitam', catatan: 'Perbandingan 3 : 1 : ½. Cocok untuk tumisan dan bebek.' },
-    { kelompok: 'Alkohol', dari: 'Red wine', jenis: 'Anggur merah beralkohol', ke: 'Jus anggur merah + cuka apel', catatan: 'Untuk semur daging atau saus bolognese. Kurangi gula di resep karena jusnya sudah manis.' },
-    { kelompok: 'Alkohol', dari: 'White wine', jenis: 'Anggur putih beralkohol', ke: 'Kaldu ayam + air jeruk lemon', catatan: 'Pas untuk risotto atau saus krim. Sedikit lemon saja, jangan terlalu asam.' },
-    { kelompok: 'Alkohol', dari: 'Rum', jenis: 'Minuman keras dari tebu', ke: 'Jus nanas atau air kelapa', catatan: 'Untuk kue, aroma rum bisa diganti perisa rum yang bersertifikat halal.' },
-    { kelompok: 'Alkohol', dari: 'Brandy / Cognac', jenis: 'Minuman keras', ke: 'Jus apel atau jus pir', catatan: 'Kalau untuk flambé, lewati saja langkahnya — rasanya tetap enak.' },
-    { kelompok: 'Alkohol', dari: 'Bir (untuk adonan)', jenis: 'Minuman fermentasi beralkohol', ke: 'Air soda dingin', catatan: 'Gelembungnya bikin adonan gorengan tetap renyah, sama seperti bir.' },
-    { kelompok: 'Alkohol', dari: 'Marsala', jenis: 'Anggur fortifikasi (Italia)', ke: 'Jus anggur + sedikit cuka balsamic', catatan: 'Untuk tiramisu, cukup pakai kopi pekat saja.' },
-    { kelompok: 'Alkohol', dari: 'Kirsch', jenis: 'Brandy ceri', ke: 'Sirup ceri atau jus ceri', catatan: 'Biasanya dipakai di black forest. Jus ceri kalengan juga bisa.' },
-    { kelompok: 'Babi', dari: 'Gelatin babi', jenis: 'Pengental dari kulit/tulang babi', ke: 'Agar-agar atau gelatin sapi halal', catatan: 'Agar-agar lebih cepat set dan teksturnya lebih padat. Pakai sekitar setengah takaran.' },
-    { kelompok: 'Babi', dari: 'Lard', jenis: 'Lemak babi', ke: 'Mentega, ghee, atau shortening nabati', catatan: 'Untuk kulit pai yang flaky, mentega dingin paling mendekati.' },
-    { kelompok: 'Babi', dari: 'Bacon', jenis: 'Daging babi asap', ke: 'Beef bacon / smoked beef', catatan: 'Atau kulit ayam yang digoreng kering + sejumput paprika asap.' },
-    { kelompok: 'Babi', dari: 'Ham', jenis: 'Paha babi olahan', ke: 'Kalkun asap atau smoked beef', catatan: 'Cocok untuk isian sandwich dan roti lapis.' },
-    { kelompok: 'Babi', dari: 'Pepperoni', jenis: 'Sosis babi pedas', ke: 'Pepperoni sapi halal', catatan: 'Sudah banyak dijual di supermarket. Cek logo halalnya.' },
-    { kelompok: 'Lainnya', dari: 'Ekstrak vanila', jenis: 'Biasanya dilarutkan dalam alkohol', ke: 'Vanili bubuk / biji vanila asli', catatan: 'Kerok biji dari batang vanila. Aromanya malah lebih wangi.' },
-    { kelompok: 'Lainnya', dari: 'Kecap inggris', jenis: 'Beberapa merek mengandung ikan teri & cuka malt', ke: 'Kecap inggris bersertifikat halal', catatan: 'Atau campur kecap asin, cuka apel, dan sedikit gula aren.' },
-    { kelompok: 'Lainnya', dari: 'Keju dengan rennet hewani', jenis: 'Enzim dari lambung hewan yang tidak jelas sembelihannya', ke: 'Keju dengan rennet mikroba / nabati', catatan: 'Lihat label "microbial rennet" atau "vegetarian rennet", atau pilih yang berlogo halal.' }
-];
-
-const adab = [
-    { judul: 'Mulai dengan bismillah', isi: 'Kalau lupa di awal, ucapkan "Bismillahi awwalahu wa akhirahu" saat ingat.', sumber: 'HR. Abu Dawud & Tirmidzi' },
-    { judul: 'Pakai tangan kanan', isi: 'Makan dan minum dengan tangan kanan, ambil yang paling dekat dengan kita.', sumber: 'HR. Bukhari & Muslim' },
-    { judul: 'Sepertiga, sepertiga, sepertiga', isi: 'Sepertiga perut untuk makanan, sepertiga untuk minum, sepertiga untuk napas.', sumber: 'HR. Tirmidzi' },
-    { judul: 'Tidak mencela makanan', isi: 'Kalau suka, dimakan. Kalau tidak suka, ditinggalkan tanpa dikomentari.', sumber: 'HR. Bukhari & Muslim' },
-    { judul: 'Makan bersama-sama', isi: 'Berkumpul saat makan dan menyebut nama Allah membuat makanan diberkahi.', sumber: 'HR. Abu Dawud' },
-    { judul: 'Habiskan, jangan tersisa', isi: 'Bersihkan piring dan jari, karena kita tidak tahu di bagian mana berkahnya.', sumber: 'HR. Muslim' }
-];
+let recipes = [];
+let kamus = [];
+let adab = [];
 
 const SECTIONS = ['beranda', 'resep', 'kamus'];
 const state = { kategori: 'Semua', qResep: '', kelompok: 'Semua', qKamus: '' };
@@ -249,6 +57,64 @@ function updateLoginUI() {
     }
 }
 
+/* ---------- utilitas AJAX ---------- */
+function setLoading($el, text) {
+    $el.html(`<div class="empty"><b>${escapeHtml(text)}</b></div>`);
+}
+
+function ajaxErrorMessage(jqXHR) {
+    if (jqXHR && jqXHR.status === 0) return 'Tidak bisa terhubung. Jalankan lewat server lokal (mis. Live Server/XAMPP).';
+    if (jqXHR && jqXHR.status) return `Gagal memuat data (HTTP ${jqXHR.status}).`;
+    return 'Gagal memuat data.';
+}
+
+/* ---------- memuat data via AJAX ---------- */
+let dataReady = false;
+
+function getResepData() {
+    // Prioritas: ambil dari database (SQL) via API, fallback ke file JSON statis
+    return $.ajax({ url: 'api/get_resep.php', method: 'GET', dataType: 'json', timeout: 8000 })
+        .then(function (data) {
+            const list = Array.isArray(data) ? data : (data && Array.isArray(data.data) ? data.data : null);
+            if (!list) return $.Deferred().reject().promise();
+            return list;
+        }, function () {
+            return $.getJSON('data/resep.json').then(function (data) {
+                return Array.isArray(data) ? data : [];
+            });
+        });
+}
+
+function loadData() {
+    dataReady = false;
+    $('#adab-list').html('<li><p class="form-hint">Memuat adab makan…</p></li>');
+    setLoading($('#recipe-container'), 'Memuat resep…');
+    setLoading($('#kamus-container'), 'Memuat kamus bahan…');
+
+    const resepReq = getResepData();
+    const kamusReq = $.getJSON('data/kamus.json');
+    const adabReq = $.getJSON('data/adab.json');
+
+    return $.when(resepReq, kamusReq, adabReq).done(function (resepData, kamusRes, adabRes) {
+        if (Array.isArray(resepData)) {
+            recipes = resepData;
+        } else if (resepData && Array.isArray(resepData[0])) {
+            recipes = resepData[0];
+        } else {
+            recipes = [];
+        }
+        kamus = Array.isArray(kamusRes[0]) ? kamusRes[0] : [];
+        adab = Array.isArray(adabRes[0]) ? adabRes[0] : [];
+        dataReady = true;
+    }).fail(function (jqXHR) {
+        const msg = ajaxErrorMessage(jqXHR);
+        $('#adab-list').html(`<li><p>${escapeHtml(msg)}</p></li>`);
+        $('#recipe-container').html(`<div class="empty"><b>${escapeHtml(msg)}</b><br><button type="button" class="link-btn" data-reload="data">Coba muat ulang</button></div>`);
+        $('#kamus-container').html(`<div class="empty"><b>${escapeHtml(msg)}</b><br><button type="button" class="link-btn" data-reload="data">Coba muat ulang</button></div>`);
+        showToast('Gagal memuat data via AJAX');
+    });
+}
+
 /* ---------- kotak masuk ---------- */
 function loadInbox() {
     try {
@@ -258,6 +124,12 @@ function loadInbox() {
 
 function saveInbox(list) {
     try { localStorage.setItem(INBOX_KEY, JSON.stringify(list)); } catch {}
+}
+
+function simpanInboxLokal(payload) {
+    const masuk = loadInbox();
+    masuk.unshift(Object.assign({ id: Date.now().toString(), dibaca: false }, payload));
+    saveInbox(masuk);
 }
 
 function handleInboxForm(e) {
@@ -270,27 +142,44 @@ function handleInboxForm(e) {
     const email = $.trim($('#inbox-email').val());
     const pesan = $.trim($('#inbox-pesan').val());
     const $status = $('#inbox-status');
+    const $btn = $(this).find('button[type="submit"]');
 
     if (!nama || !pesan) {
         $status.text('Nama dan pesan wajib diisi.').removeClass('ok').addClass('err');
         return;
     }
 
-    const masuk = loadInbox();
-    masuk.unshift({
-        id: Date.now().toString(),
+    const payload = {
         waktu: new Date().toISOString(),
         user: currentUser.nama,
         nama,
         email,
-        pesan,
-        dibaca: false
-    });
-    saveInbox(masuk);
+        pesan
+    };
 
-    $('#form-masuk')[0].reset();
-    $status.text('Pesan terkirim. Terima kasih atas masukan Anda!').removeClass('err').addClass('ok');
-    setTimeout(() => { $status.text('').removeClass('ok'); }, 4000);
+    $btn.prop('disabled', true).text('Mengirim…');
+    $status.text('Mengirim pesan…').removeClass('ok err');
+
+    $.ajax({
+        url: 'api/kirim_pesan.php',
+        method: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(payload),
+        timeout: 8000
+    }).done(function () {
+        simpanInboxLokal(payload);
+        $('#form-masuk')[0].reset();
+        $status.text('Pesan terkirim. Terima kasih atas masukan Anda!').removeClass('err').addClass('ok');
+    }).fail(function () {
+        // fallback: simpan lokal agar data tetap masuk
+        simpanInboxLokal(payload);
+        $('#form-masuk')[0].reset();
+        $status.text('Pesan disimpan di perangkat ini (server tidak tersedia).').removeClass('err').addClass('ok');
+    }).always(function () {
+        $btn.prop('disabled', false).text('Kirim Pesan');
+        setTimeout(() => { $status.text('').removeClass('ok'); }, 4000);
+    });
 }
 
 /* ---------- tambah resep ---------- */
@@ -302,6 +191,12 @@ function loadSubmittedRecipes() {
 
 function saveSubmittedRecipes(list) {
     try { localStorage.setItem(RECIPE_SUBMIT_KEY, JSON.stringify(list)); } catch {}
+}
+
+function simpanResepLokal(payload) {
+    const list = loadSubmittedRecipes();
+    list.unshift(Object.assign({ id: 'user-' + Date.now(), disetujui: false }, payload));
+    saveSubmittedRecipes(list);
 }
 
 function handleAddRecipeForm(e) {
@@ -319,26 +214,51 @@ function handleAddRecipeForm(e) {
     const langkah = $.trim($('#resep-langkah').val()).split('\n').map(l => $.trim(l)).filter(Boolean);
     const dalil = $.trim($('#resep-dalil').val());
     const $status = $('#recipe-status');
+    const $btn = $(this).find('button[type="submit"]');
 
     if (!nama || !kategori || !waktu || !ringkas || !bahan.length || !langkah.length) {
         $status.text('Isi semua field yang wajib.').removeClass('ok').addClass('err');
         return;
     }
 
-    const list = loadSubmittedRecipes();
-    list.unshift({
-        id: 'user-' + Date.now(),
-        waktu: new Date().toISOString(),
+    const payload = {
+        waktuSubmit: new Date().toISOString(),
         user: currentUser.nama,
-        nama, kategori, waktu, porsi, ringkas, bahan, langkah, dalil,
-        disetujui: false
-    });
-    saveSubmittedRecipes(list);
+        user_id: currentUser.id || null,
+        nama,
+        kategori,
+        waktuMasak: waktu,
+        porsi,
+        ringkas,
+        bahan,
+        langkah,
+        dalil
+    };
 
-    $('#form-tambah-resep')[0].reset();
-    $('#resep-porsi').val(1);
-    $status.text('Resep terkirim. Akan ditinjau sebelum ditampilkan.').removeClass('err').addClass('ok');
-    setTimeout(() => { $status.text('').removeClass('ok'); }, 5000);
+    $btn.prop('disabled', true).text('Mengirim…');
+    $status.text('Mengirim resep…').removeClass('ok err');
+
+    $.ajax({
+        url: 'api/kirim_resep.php',
+        method: 'POST',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(payload),
+        timeout: 8000
+    }).done(function () {
+        simpanResepLokal(payload);
+        $('#form-tambah-resep')[0].reset();
+        $('#resep-porsi').val(1);
+        $status.text('Resep terkirim. Akan ditinjau sebelum ditampilkan.').removeClass('err').addClass('ok');
+    }).fail(function () {
+        simpanResepLokal(payload);
+        $('#form-tambah-resep')[0].reset();
+        $('#resep-porsi').val(1);
+        $status.text('Resep disimpan di perangkat ini (server tidak tersedia).').removeClass('err').addClass('ok');
+    }).always(function () {
+        $btn.prop('disabled', false).text('Kirim Resep');
+        setTimeout(() => { $status.text('').removeClass('ok'); }, 5000);
+    });
 }
 
 function escapeHtml(str) {
@@ -353,7 +273,7 @@ function highlight(text, q) {
 }
 
 function recipeText(r) {
-    return [r.nama, r.ringkas, r.kategori, ...r.bahan].join(' ').toLowerCase();
+    return [r.nama, r.ringkas, r.kategori, ...(r.bahan || [])].join(' ').toLowerCase();
 }
 
 function showToast(msg) {
@@ -397,11 +317,15 @@ function route() {
 
 /* ---------- beranda ---------- */
 function renderAdab() {
+    if (!adab.length) {
+        $('#adab-list').html('');
+        return;
+    }
     $('#adab-list').html(adab.map(a => `
         <li>
-            <h3>${a.judul}</h3>
-            <p>${a.isi}</p>
-            <small>${a.sumber}</small>
+            <h3>${escapeHtml(a.judul)}</h3>
+            <p>${escapeHtml(a.isi)}</p>
+            <small>${escapeHtml(a.sumber)}</small>
         </li>
     `).join(''));
 }
@@ -517,6 +441,7 @@ function renderRecipeFilters() {
 }
 
 function renderRecipes() {
+    if (!recipes.length) return;
     const q = $.trim(state.qResep).toLowerCase();
     const list = recipes.filter(r => matchKategori(r) && (!q || recipeText(r).includes(q)));
 
@@ -552,8 +477,8 @@ function openRecipe(id) {
     $('#modal-content').html(`
         <button type="button" class="modal-close" data-close aria-label="Tutup">×</button>
         <p class="eyebrow">${r.kategori.toLowerCase()}</p>
-        <h2 id="modal-title">${r.nama}</h2>
-        <p class="modal-lead">${r.ringkas}</p>
+        <h2 id="modal-title">${escapeHtml(r.nama)}</h2>
+        <p class="modal-lead">${escapeHtml(r.ringkas)}</p>
 
         <div class="modal-bar">
             <div class="modal-facts">
@@ -572,14 +497,14 @@ function openRecipe(id) {
                 <h4>bahan <span class="hint">centang yang sudah siap</span></h4>
                 <ul class="checklist">
                     ${r.bahan.map((b, i) => `
-                        <li><label><input type="checkbox" id="b-${i}"><span>${b}</span></label></li>
+                        <li><label><input type="checkbox" id="b-${i}"><span>${escapeHtml(b)}</span></label></li>
                     `).join('')}
                 </ul>
             </div>
             <div>
                 <h4>cara membuat <span class="hint">klik langkah yang selesai</span></h4>
                 <ol class="steps">
-                    ${r.langkah.map(l => `<li tabindex="0">${l}</li>`).join('')}
+                    ${r.langkah.map(l => `<li tabindex="0">${escapeHtml(l)}</li>`).join('')}
                 </ol>
             </div>
         </div>
@@ -596,13 +521,13 @@ function openRecipe(id) {
         </div>
 
         <figure class="hadith">
-            <blockquote>“${r.dalil}”</blockquote>
-            <figcaption>${r.sumber}</figcaption>
+            <blockquote>“${escapeHtml(r.dalil)}”</blockquote>
+            <figcaption>${escapeHtml(r.sumber)}</figcaption>
         </figure>
 
         <nav class="modal-nav" aria-label="Resep lain">
-            <a href="#resep/${prev.id}"><small>← Sebelumnya</small>${prev.nama}</a>
-            <a href="#resep/${next.id}"><small>Berikutnya →</small>${next.nama}</a>
+            <a href="#resep/${prev.id}"><small>← Sebelumnya</small>${escapeHtml(prev.nama)}</a>
+            <a href="#resep/${next.id}"><small>Berikutnya →</small>${escapeHtml(next.nama)}</a>
         </nav>
     `);
 
@@ -648,10 +573,11 @@ function renderKamusFilters() {
 }
 
 function renderKamus() {
+    if (!kamus.length) return;
     const q = $.trim(state.qKamus).toLowerCase();
     const items = kamus.filter(k =>
         (state.kelompok === 'Semua' || k.kelompok === state.kelompok) &&
-        (!q || [k.dari, k.jenis, k.ke, k.catatan].some(t => t.toLowerCase().includes(q)))
+        (!q || [k.dari, k.jenis, k.ke, k.catatan].some(t => String(t).toLowerCase().includes(q)))
     );
 
     $('#kamus-count').text(`${items.length} bahan`);
@@ -694,6 +620,22 @@ function closeLogin() {
     }
 }
 
+function initApp() {
+    loadFavorites();
+    if (dataReady) {
+        renderAdab();
+        renderRecipeFilters();
+        renderRecipes();
+        renderKamusFilters();
+        renderKamus();
+        if (recipeFromHash()) {
+            openedFromLink = true;
+            route();
+        }
+    }
+    watchSections();
+}
+
 /* ---------- event (jQuery delegation) ---------- */
 $(function () {
     $(document)
@@ -734,6 +676,9 @@ $(function () {
             $('#search-kamus').val('');
             renderKamusFilters();
             renderKamus();
+        })
+        .on('click', '[data-reload="data"]', function () {
+            loadData().always(initApp);
         })
         .on('click', '[data-close]', function () {
             closeRecipe();
@@ -783,15 +728,39 @@ $(function () {
         e.preventDefault();
         const nama = $.trim($('#login-nama').val());
         const $status = $('#login-status');
+        const $btn = $(this).find('button[type="submit"]');
         if (!nama) {
             $status.text('Nama wajib diisi.').removeClass('ok').addClass('err');
             return;
         }
-        saveLogin({ nama });
-        this.reset();
-        $status.text('').removeClass('err ok');
-        closeLogin();
-        showToast(`Selamat datang, ${nama}`);
+
+        $btn.prop('disabled', true).text('Memproses…');
+        $status.text('Menghubungkan ke server…').removeClass('ok err');
+
+        $.ajax({
+            url: 'api/login.php',
+            method: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify({ nama }),
+            timeout: 8000
+        }).done(function (res) {
+            const user = res && res.user ? res.user : { nama };
+            saveLogin(user);
+            $('#form-login')[0].reset();
+            $status.text('').removeClass('err ok');
+            closeLogin();
+            showToast(`Selamat datang, ${user.nama || nama}`);
+        }).fail(function () {
+            // fallback: login lokal jika server/database tidak tersedia
+            saveLogin({ nama });
+            $('#form-login')[0].reset();
+            $status.text('').removeClass('err ok');
+            closeLogin();
+            showToast(`Selamat datang, ${nama} (mode lokal)`);
+        }).always(function () {
+            $btn.prop('disabled', false).text('Masuk');
+        });
     });
 
     $('#form-masuk').on('submit', handleInboxForm);
@@ -812,17 +781,6 @@ $(function () {
 
     $(window).on('hashchange', route);
 
-    loadFavorites();
     loadLogin();
-    renderAdab();
-    renderRecipeFilters();
-    renderRecipes();
-    renderKamusFilters();
-    renderKamus();
-    watchSections();
-
-    if (recipeFromHash()) {
-        openedFromLink = true;
-        route();
-    }
+    loadData().always(initApp);
 });
