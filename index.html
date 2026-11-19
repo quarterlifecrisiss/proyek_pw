@@ -72,6 +72,12 @@
                 </aside>
             </div>
 
+            <div class="wave-divider" aria-hidden="true">
+                <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,32 C240,80 480,0 720,32 C960,64 1200,16 1440,48 L1440,80 L0,80 Z"></path>
+                </svg>
+            </div>
+
             <div class="block">
                 <div class="block-head">
                     <h2>Adab makan dari Rasulullah ﷺ</h2>
@@ -166,8 +172,14 @@
                     <input type="number" id="resep-porsi" min="1" max="20" value="1" required>
                 </div>
                 <div class="form-row full">
-                    <label for="resep-ringkas">Ringkasan (1 kalimat)</label>
+                    <label for="resep-ringkas">Ringkasan</label>
                     <textarea id="resep-ringkas" rows="2" placeholder="Ceritakan resep ini secara singkat…" required minlength="10" maxlength="200"></textarea>
+                </div>
+                <div class="form-row full">
+                    <label for="resep-foto">Foto Makanan (opsional)</label>
+                    <input type="file" id="resep-foto" accept="image/*">
+                    <div id="resep-foto-preview" class="foto-preview hidden" aria-live="polite"></div>
+                    <p class="form-note">Pilih foto masakan (jpg/png/webp).</p>
                 </div>
                 <div class="form-row full">
                     <label for="resep-bahan">Bahan (satu baris satu bahan)</label>

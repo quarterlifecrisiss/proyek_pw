@@ -7,6 +7,8 @@
     "porsi": 1,
     "warna": "#b08a4f",
     "inisial": "Tb",
+    "gambar": "img/talbinah-fufuskitchen.png",
+    "gambar_alt": "Semangkuk talbinah susu madu",
     "ringkas": "Bubur barley lembut yang dimasak dengan susu, lalu disiram madu. Hangat dan bikin kenyang lama.",
     "nutrisi": { "kalori": 115, "karbo": 20, "protein": 3, "lemak": 3, "serat": 2 },
     "bahan": [
@@ -34,6 +36,8 @@
     "porsi": 1,
     "warna": "#c9772b",
     "inisial": "Lb",
+    "gambar": "img/autumn-pumpkin-soup.webp",
+    "gambar_alt": "Semangkuk sup labu hangat",
     "ringkas": "Labu kuning dimasak bersama potongan daging sapi dan rempah. Kuahnya manis gurih, cocok buat makan malam.",
     "nutrisi": { "kalori": 53, "karbo": 2, "protein": 5, "lemak": 3, "serat": 1 },
     "bahan": [
@@ -63,6 +67,8 @@
     "porsi": 1,
     "warna": "#5c6b3a",
     "inisial": "Tk",
+    "gambar": "img/asian-cucumber-salad.jpg",
+    "gambar_alt": "Salad mentimun segar",
     "ringkas": "Perpaduan dingin dan manis. Timun yang segar ketemu kurma yang legit — ternyata ini kombinasi yang Nabi ﷺ suka.",
     "nutrisi": { "kalori": 90, "karbo": 15, "protein": 1, "lemak": 3, "serat": 2 },
     "bahan": [
@@ -89,6 +95,8 @@
     "porsi": 1,
     "warna": "#7a3e1d",
     "inisial": "Rc",
+    "gambar": "img/wholemeal-sourdough-bread-smoked-butter-with-sherry.jpg",
+    "gambar_alt": "Roti dengan minyak zaitun",
     "ringkas": "Sarapan paling sederhana di buku ini. Roti hangat, cocolan minyak zaitun, cuka apel, dan sedikit za’atar.",
     "nutrisi": { "kalori": 450, "karbo": 30, "protein": 6, "lemak": 35, "serat": 4 },
     "bahan": [
@@ -115,6 +123,8 @@
     "porsi": 1,
     "warna": "#8f3b22",
     "inisial": "Th",
+    "gambar": "img/lamb-stew-wiesbaden.jpg",
+    "gambar_alt": "Kuah daging disajikan bersama roti",
     "ringkas": "Roti yang disobek lalu disiram kuah daging kambing berbumbu. Makanan istimewa yang Nabi ﷺ jadikan perumpamaan.",
     "nutrisi": { "kalori": 100, "karbo": 5, "protein": 6, "lemak": 6, "serat": 1 },
     "bahan": [
@@ -144,6 +154,8 @@
     "porsi": 1,
     "warna": "#2b2420",
     "inisial": "Wj",
+    "gambar": "img/wedang-jahe-halodoc.webp",
+    "gambar_alt": "Segelas wedang jahe hangat",
     "ringkas": "Minuman hangat buat malam hujan. Jahe bakar, madu, dan sedikit jintan hitam yang disangrai.",
     "nutrisi": { "kalori": 35, "karbo": 9, "protein": 0, "lemak": 0, "serat": 0 },
     "bahan": [

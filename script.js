@@ -27,8 +27,23 @@ function initSupabase() {
     return supabaseClient;
 }
 
+const RECIPE_IMAGES = {
+    'talbinah': { src: 'img/talbinah-fufuskitchen.png', alt: 'Semangkuk talbinah susu madu' },
+    'sup-labu': { src: 'img/autumn-pumpkin-soup.webp', alt: 'Semangkuk sup labu hangat' },
+    'timun-kurma': { src: 'img/asian-cucumber-salad.jpg', alt: 'Salad mentimun segar' },
+    'roti-cuka': { src: 'img/wholemeal-sourdough-bread-smoked-butter-with-sherry.jpg', alt: 'Roti dengan minyak zaitun' },
+    'tharid': { src: 'img/lamb-stew-wiesbaden.jpg', alt: 'Kuah daging disajikan bersama roti' },
+    'wedang-habbats': { src: 'img/wedang-jahe-halodoc.webp', alt: 'Segelas wedang jahe hangat' }
+};
+
+function getRecipeImage(r) {
+    if (r && r.gambar) return { src: r.gambar, alt: r.gambar_alt || r.nama || '' };
+    if (r && RECIPE_IMAGES[r.id]) return RECIPE_IMAGES[r.id];
+    return null;
+}
+
 function mapResepRow(row) {
-    return {
+    const base = {
         id: row.slug || ('db-' + row.id),
         db_id: row.id,
         nama: row.nama,
@@ -44,6 +59,11 @@ function mapResepRow(row) {
         dalil: row.dalil || '',
         sumber: row.sumber || ''
     };
+    if (row.gambar) {
+        base.gambar = row.gambar;
+        base.gambar_alt = row.gambar_alt || '';
+    }
+    return base;
 }
 
 /* ---------- login state (hanya di perangkat) ---------- */
@@ -245,6 +265,70 @@ function simpanResepLokal(payload) {
     saveSubmittedRecipes(list);
 }
 
+let recipeImageData = null;
+
+function readImageAsDataURL(file, maxSize = 800, quality = 0.8) {
+    return new Promise((resolve, reject) => {
+        if (!file) { resolve(null); return; }
+        if (!file.type || !file.type.startsWith('image/')) {
+            reject(new Error('File harus berupa gambar.'));
+            return;
+        }
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error('Gagal membaca file gambar.'));
+        reader.onload = () => {
+            const img = new Image();
+            img.onerror = () => reject(new Error('Format gambar tidak didukung.'));
+            img.onload = () => {
+                let { width, height } = img;
+                if (width > maxSize || height > maxSize) {
+                    if (width > height) {
+                        height = Math.round(height * (maxSize / width));
+                        width = maxSize;
+                    } else {
+                        width = Math.round(width * (maxSize / height));
+                        height = maxSize;
+                    }
+                }
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                // gunakan jpeg untuk kompresi yang baik; png tetap diproses
+                let dataUrl = canvas.toDataURL('image/jpeg', quality);
+                resolve(dataUrl);
+            };
+            img.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+function clearRecipeImagePreview() {
+    recipeImageData = null;
+    $('#resep-foto-preview').addClass('hidden').empty();
+}
+
+async function handleRecipeImageChange() {
+    const input = document.getElementById('resep-foto');
+    const file = input && input.files && input.files[0];
+    const $preview = $('#resep-foto-preview');
+    if (!file) {
+        clearRecipeImagePreview();
+        return;
+    }
+    try {
+        recipeImageData = await readImageAsDataURL(file);
+        $preview
+            .removeClass('hidden')
+            .html(`<img src="${recipeImageData}" alt="Pratinjau foto makanan">`);
+    } catch (err) {
+        clearRecipeImagePreview();
+        showToast(err.message || 'Gagal memuat foto.');
+    }
+}
+
 async function handleAddRecipeForm(e) {
     e.preventDefault();
     if (!currentUser) {
@@ -267,6 +351,19 @@ async function handleAddRecipeForm(e) {
         return;
     }
 
+    // pastikan foto (jika dipilih) sudah diproses
+    let gambar = recipeImageData;
+    const fotoInput = document.getElementById('resep-foto');
+    if (!gambar && fotoInput && fotoInput.files && fotoInput.files[0]) {
+        try {
+            gambar = await readImageAsDataURL(fotoInput.files[0]);
+            recipeImageData = gambar;
+        } catch (err) {
+            $status.text(err.message || 'Gagal memproses foto.').removeClass('ok').addClass('err');
+            return;
+        }
+    }
+
     const payload = {
         waktuSubmit: new Date().toISOString(),
         user: currentUser.nama,
@@ -280,15 +377,20 @@ async function handleAddRecipeForm(e) {
         langkah,
         dalil
     };
+    if (gambar) {
+        payload.gambar = gambar;
+        payload.gambar_alt = `Foto ${nama}`;
+    }
 
     $btn.prop('disabled', true).text('Mengirim…');
     $status.text('Mengirim resep…').removeClass('ok err');
 
     const sb = initSupabase();
+    let sentToDb = false;
     try {
         if (sb) {
             const inisial = String(nama).trim().slice(0, 2).toUpperCase();
-            const { error } = await sb.from('resep').insert({
+            const insertData = {
                 nama,
                 kategori,
                 waktu_masak: waktu,
@@ -302,11 +404,27 @@ async function handleAddRecipeForm(e) {
                 dalil: dalil || null,
                 user_id: currentUser.id || null,
                 disetujui: false
-            });
+            };
+            if (gambar) {
+                insertData.gambar = gambar;
+                insertData.gambar_alt = `Foto ${nama}`;
+            }
+            let { error } = await sb.from('resep').insert(insertData);
+            // jika kolom gambar belum ada di tabel, coba kirim tanpa gambar
+            if (error && gambar) {
+                const errText = `${error.message || ''} ${error.details || ''} ${error.hint || ''}`.toLowerCase();
+                if (error.code === '42703' || errText.includes('gambar')) {
+                    const { gambar: _g, gambar_alt: _ga, ...withoutImage } = insertData;
+                    const retry = await sb.from('resep').insert(withoutImage);
+                    error = retry.error;
+                }
+            }
             if (error) throw error;
+            sentToDb = true;
             simpanResepLokal(payload);
             $('#form-tambah-resep')[0].reset();
             $('#resep-porsi').val(1);
+            clearRecipeImagePreview();
             $status.text('Resep terkirim. Akan ditinjau sebelum ditampilkan.').removeClass('err').addClass('ok');
         } else {
             throw new Error('Supabase belum dikonfigurasi');
@@ -315,6 +433,7 @@ async function handleAddRecipeForm(e) {
         simpanResepLokal(payload);
         $('#form-tambah-resep')[0].reset();
         $('#resep-porsi').val(1);
+        clearRecipeImagePreview();
         $status.text('Resep disimpan di perangkat ini (database tidak tersedia).').removeClass('err').addClass('ok');
     } finally {
         $btn.prop('disabled', false).text('Kirim Resep');
@@ -458,12 +577,16 @@ function toggleFav(id) {
 }
 
 function cardHTML(r, q = '') {
+    const img = getRecipeImage(r);
+    const art = img
+        ? `<div class="card-art card-art-photo"><img src="${escapeHtml(img.src)}" alt="${escapeHtml(img.alt)}" loading="lazy" decoding="async"></div>`
+        : `<div class="card-art" style="--c:${r.warna}" aria-hidden="true">${r.inisial}</div>`;
     return `
         <div class="col-12 col-md-6 col-lg-4">
             <article class="card">
         ${favButton(r.id)}
         <a class="card-link" href="#resep/${r.id}">
-            <div class="card-art" style="--c:${r.warna}" aria-hidden="true">${r.inisial}</div>
+            ${art}
             <div class="card-body">
                 <div class="card-meta">
                     <span>${r.kategori}</span>
@@ -535,11 +658,17 @@ function openRecipe(id) {
     const prev = recipes[(index - 1 + recipes.length) % recipes.length];
     const next = recipes[(index + 1) % recipes.length];
 
+    const img = getRecipeImage(r);
+    const heroImg = img
+        ? `<figure class="modal-hero"><img src="${escapeHtml(img.src)}" alt="${escapeHtml(img.alt)}" decoding="async"></figure>`
+        : '';
+
     $('#modal-content').html(`
         <button type="button" class="modal-close" data-close aria-label="Tutup">×</button>
         <p class="eyebrow">${r.kategori.toLowerCase()}</p>
         <h2 id="modal-title">${escapeHtml(r.nama)}</h2>
         <p class="modal-lead">${escapeHtml(r.ringkas)}</p>
+        ${heroImg}
 
         <div class="modal-bar">
             <div class="modal-facts">
@@ -842,6 +971,7 @@ $(function () {
 
     $('#form-masuk').on('submit', handleInboxForm);
     $('#form-tambah-resep').on('submit', handleAddRecipeForm);
+    $('#resep-foto').on('change', handleRecipeImageChange);
 
     let resepTimer, kamusTimer;
     $('#search-resep').on('input', function () {
