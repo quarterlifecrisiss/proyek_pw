@@ -196,7 +196,12 @@ function simpanInboxLokal(payload) {
 async function handleInboxForm(e) {
     e.preventDefault();
     if (!currentUser) {
+        $('#inbox-status')
+            .text('Silakan masuk terlebih dahulu untuk mengirim pesan.')
+            .removeClass('ok')
+            .addClass('err');
         showToast('Silakan masuk terlebih dahulu');
+        openLogin();
         return;
     }
     const nama = $.trim($('#inbox-nama').val());
